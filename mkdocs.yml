@@ -1,0 +1,63 @@
+site_name: Performance Hacks
+site_author: 'zhoujiagen@gmail.com'
+copyright: MIT
+repo_name: perf_hacks
+repo_url: https://github.com/zhoujiagen/perf_hacks
+
+nav:
+    - Home: index.md
+    - 'Terminology': terms.md
+    - 'Performance Analysis': perf_analysis.md
+    - 'perf': perf.md
+    - 'strace': strace.md
+    - 'Flame Graph': flame-graph.md
+    - 'Tracing':
+      - 'Linux Tracing Technologies': tracing/linux-tracing.md
+      - 'Tracepoint': tracing/probes/tracepoint.md
+      - 'usdt': tracing/probes/usdt.md
+      - 'kprobe, kretprobe': tracing/probes/kprobe.md
+      - 'uprobe, uretprobe': tracing/probes/uprobe.md
+      - 'software, hardware': tracing/probes/software_hardware.md
+      - 'profile, interval': tracing/probes/profile_interval.md
+    - 'BPF':
+      - 'Tools':
+        - 'BCC': bpf/tools/bcc.md
+        - 'bpftrace': bpf/tools/bpftrace.md
+      - 'Book':
+        - 'Index': bpf/bpf-book.md
+        - 'PART 1: 技术': bpf/bpf-book-part1.md
+        - 'PART 2: 使用BPF工具': bpf/bpf-book-part2.md
+        - 'PART 3: 高级主题': bpf/bpf-book-part3.md
+        - 'PART 4: 附录': bpf/bpf-book-part4.md
+
+#theme: readthedocs
+theme:
+  name: material
+extra:
+  search:
+    language: 'en'
+markdown_extensions:
+  - admonition
+  - codehilite:
+      linenums: true
+      guess_lang: False
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex # LaTeX math equations
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+  - footnotes
+
+extra_javascript:
+  - 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'
