@@ -26,7 +26,7 @@
 - 沿着顶层边查找大的高原, 它展示了在这次探查中运行频率较高的调用栈.
 - 从上往下读函数的祖先.
 - 函数的矩形框的宽度可以直接用来比较: 宽的表示在探查中出现频率较高, 值得首先考察.
-- 按时间采样调用栈探查CPU时, 如果一个函数的矩形框交款, 可能是因为它每个函数调用消耗更多CPU或者这个函数被更频繁的调用.
+- 按时间采样调用栈探查CPU时, 如果一个函数的矩形框较宽, 可能是因为它每个函数调用消耗更多CPU或者这个函数被更频繁的调用.
 - 火焰图中的分支, 表现为单个函数上两个或多个大的塔, 对分析很有用. 它们可以指出隶属于一个逻辑组的代码, 也可能是由条件语句产生的.
 
 
@@ -73,9 +73,9 @@
 $ perf record -F 99 -p 181 -a -g -- sleep 60
 $ perf script > out.perf
 
-# fold stack for Linux perf_event "perf script" output
+# 2 fold stack for Linux perf_event "perf script" output
 $ ./stackcollapse-perf.pl ../mysql-out.perf > ../mysql-out.folded
 
-# render a SVG
+# 3 render a SVG
 $ ./flamegraph.pl ../mysql-out.folded > ../mysql.svg
 ```

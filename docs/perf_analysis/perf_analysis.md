@@ -10,14 +10,14 @@
 |#|步骤|说明|描述|
 |-|---|:---|:---|
 |1|`uptime`| 查看平均负载. |Tell how long the system has been running |
-|2|`dmesg | tail`| 查看最后几条系统消息. |print or control the kernel ring buffer|
+|2| ```dmesg | tail``` | 查看最后几条系统消息. |print or control the kernel ring buffer|
 |3|`vmstat 1`| 每秒输出虚拟内存统计信息. |Report virtual memory statistics|
 |4|`mpstat -P ALL 1`| 查看每个CPU的统计时间. |Report processors related statistics |
 |5|`pidstat 1`| 查看每个进程的CPU使用情况. |Report statistics for Linux tasks|
 |6|`iostat -xz 1`| 查看存储设备I/O情况. |Report Central Processing Unit (CPU) statistics and input/output statistics for devices and partitions|
 |7|`free -m`| 查看可用内存. |Display amount of free and used memory in the system|
 |8|`sar -n DEV 1`| 查看网络设备情况. |Collect, report, or save system activity information|
-|9|`sar -n TCP,ETCP 1`| 查看TPC情况. |同上 |
+|9|`sar -n TCP,ETCP 1`| 查看TCP情况. |同上 |
 |10|`top`| 查看系统和进程汇总信息. |display Linux processes|
 
 

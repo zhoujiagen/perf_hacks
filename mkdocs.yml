@@ -13,11 +13,7 @@ nav:
     - C:
       - 'Core': clang/clang-core.md
       - 'Lib': clang/clib.md
-      - 'Posix in Action': clang/posix-in-action.md
-      - 'Syscall': clang/syscall.md
       - 'Tool': clang/tool.md
-      - 'Linux Architecture': clang/linux-arch.md
-      - 'The Linux Programming Interface': clang/tlpi.md
     - 'C++':
       - 'C++ Primer': cplusplus/primer.md
       - 'Tool': cplusplus/tool.md
@@ -25,33 +21,39 @@ nav:
     - Rust:
       - 'Notes': rust/notes.md
       - 'Tools': rust/tool.md
-    - 'Network':
-      - 'TCP/IP': network/network.md
-      - 'Netty': network/netty.md
-      - 'NS2': network/ns2.md
-    - 'Terminology': terms.md
-    - 'Performance Analysis': perf_analysis.md
-    - 'perf': perf.md
-    - 'strace': strace.md
-    - 'Flame Graph': flame-graph.md
-    - 'Tracing':
-      - 'Linux Tracing Technologies': tracing/linux-tracing.md
-      - 'Tracepoint': tracing/probes/tracepoint.md
-      - 'usdt': tracing/probes/usdt.md
-      - 'kprobe, kretprobe': tracing/probes/kprobe.md
-      - 'uprobe, uretprobe': tracing/probes/uprobe.md
-      - 'software, hardware': tracing/probes/software_hardware.md
-      - 'profile, interval': tracing/probes/profile_interval.md
-    - 'BPF':
+    - 'Kernel':
+      - 'Linux Architecture': kernel/linux-arch.md
+      - 'The Linux Programming Interface': kernel/tlpi.md
+      - 'Syscall': kernel/syscall.md
+      - 'Posix in Action': kernel/posix-in-action.md
+      - 'Network':
+        - 'TCP/IP': kernel/network/network.md
+        - 'Netty': kernel/network/netty.md
+        - 'NS2': kernel/network/ns2.md
+    - 'Performance Analysis':
+      - 'Introduction': perf_analysis/perf_analysis.md
+      - 'Terminology': perf_analysis/terms.md
+      - 'Flame Graph': perf_analysis/flame-graph.md
+      - 'Tracing':
+        - 'Linux Tracing Technologies': perf_analysis/tracing/linux-tracing.md
+        - 'Tracepoint': perf_analysis/tracing/probes/tracepoint.md
+        - 'usdt': perf_analysis/tracing/probes/usdt.md
+        - 'kprobe, kretprobe': perf_analysis/tracing/probes/kprobe.md
+        - 'uprobe, uretprobe': perf_analysis/tracing/probes/uprobe.md
+        - 'software, hardware': perf_analysis/tracing/probes/software_hardware.md
+        - 'profile, interval': perf_analysis/tracing/probes/profile_interval.md
       - 'Tools':
-        - 'BCC': bpf/tools/bcc.md
-        - 'bpftrace': bpf/tools/bpftrace.md
-      - 'Book':
-        - 'Index': bpf/bpf-book.md
-        - 'PART 1: 技术': bpf/bpf-book-part1.md
-        - 'PART 2: 使用BPF工具': bpf/bpf-book-part2.md
-        - 'PART 3: 高级主题': bpf/bpf-book-part3.md
-        - 'PART 4: 附录': bpf/bpf-book-part4.md
+        - 'perf': perf_analysis/tools/perf.md
+        - 'strace': perf_analysis/tools/strace.md
+        - 'BPF':
+          - 'BCC': perf_analysis/tools/bpf/bcc.md
+          - 'bpftrace': perf_analysis/tools/bpf/bpftrace.md
+          - 'Book':
+            - 'Index': perf_analysis/tools/bpf/bpf-book.md
+            - 'PART 1: 技术': perf_analysis/tools/bpf/bpf-book-part1.md
+            - 'PART 2: 使用BPF工具': perf_analysis/tools/bpf/bpf-book-part2.md
+            - 'PART 3: 高级主题': perf_analysis/tools/bpf/bpf-book-part3.md
+            - 'PART 4: 附录': perf_analysis/tools/bpf/bpf-book-part4.md
 
 #theme: readthedocs
 theme:
