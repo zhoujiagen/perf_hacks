@@ -1,0 +1,9 @@
+venv/
+.idea/
+*.build/
+build/
+
+.project
+
+target/
+*.lock

@@ -6,6 +6,29 @@ repo_url: https://github.com/zhoujiagen/perf_hacks
 
 nav:
     - Home: index.md
+    - Build:
+      - Make: build-tools/make.md
+      - Autotools: build-tools/autotools.md
+      - CMake: build-tools/cmake.md
+    - C:
+      - 'Core': clang/clang-core.md
+      - 'Lib': clang/clib.md
+      - 'Posix in Action': clang/posix-in-action.md
+      - 'Syscall': clang/syscall.md
+      - 'Tool': clang/tool.md
+      - 'Linux Architecture': clang/linux-arch.md
+      - 'The Linux Programming Interface': clang/tlpi.md
+    - 'C++':
+      - 'C++ Primer': cplusplus/primer.md
+      - 'Tool': cplusplus/tool.md
+      - 'C++ 11': cplusplus/CXX11-Standard.md
+    - Rust:
+      - 'Notes': rust/notes.md
+      - 'Tools': rust/tool.md
+    - 'Network':
+      - 'TCP/IP': network/network.md
+      - 'Netty': network/netty.md
+      - 'NS2': network/ns2.md
     - 'Terminology': terms.md
     - 'Performance Analysis': perf_analysis.md
     - 'perf': perf.md
