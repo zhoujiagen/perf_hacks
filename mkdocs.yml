@@ -36,12 +36,13 @@ nav:
       - 'Flame Graph': perf_analysis/flame-graph.md
       - 'Tracing':
         - 'Linux Tracing Technologies': perf_analysis/tracing/linux-tracing.md
-        - 'Tracepoint': perf_analysis/tracing/probes/tracepoint.md
-        - 'usdt': perf_analysis/tracing/probes/usdt.md
-        - 'kprobe, kretprobe': perf_analysis/tracing/probes/kprobe.md
-        - 'uprobe, uretprobe': perf_analysis/tracing/probes/uprobe.md
-        - 'software, hardware': perf_analysis/tracing/probes/software_hardware.md
-        - 'profile, interval': perf_analysis/tracing/probes/profile_interval.md
+        - 'Probes':
+          - 'Tracepoint': perf_analysis/tracing/probes/tracepoint.md
+          - 'usdt': perf_analysis/tracing/probes/usdt.md
+          - 'kprobe, kretprobe': perf_analysis/tracing/probes/kprobe.md
+          - 'uprobe, uretprobe': perf_analysis/tracing/probes/uprobe.md
+          - 'software, hardware': perf_analysis/tracing/probes/software_hardware.md
+          - 'profile, interval': perf_analysis/tracing/probes/profile_interval.md
       - 'Tools':
         - 'perf': perf_analysis/tools/perf.md
         - 'strace': perf_analysis/tools/strace.md

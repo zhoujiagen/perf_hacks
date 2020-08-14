@@ -1,15 +1,16 @@
 # BCC: BPF Compiler Collection
 
-[BCC (BPF Compiler Collection)](https://github.com/iovisor/bcc) was the first higher-level tracing framework developed for BPF.
-It provides a C programming environment for writing kernel BPF code and other languages for the user-level interface: Python, Lua, and C++.
+> [BCC (BPF Compiler Collection)](https://github.com/iovisor/bcc) was the first higher-level tracing framework developed for BPF.
+>
+> It provides a C programming environment for writing kernel BPF code and other languages for the user-level interface: Python, Lua, and C++.
 
-- [BCC - Tools for BPF-based Linux IO analysis, networking, monitoring, and more](https://github.com/iovisor/bcc): Github
-- [bcc Reference Guide](https://github.com/iovisor/bcc/blob/master/docs/reference_guide.md)
-- [bcc Python Developer Tutorial](https://github.com/iovisor/bcc/blob/master/docs/tutorial_bcc_python_developer.md)
+- [BCC - Tools for BPF-based Linux IO analysis, networking, monitoring, and more](https://github.com/iovisor/bcc): Github.
+- [bcc Reference Guide](https://github.com/iovisor/bcc/blob/master/docs/reference_guide.md): 参考指南.
+- [bcc Python Developer Tutorial](https://github.com/iovisor/bcc/blob/master/docs/tutorial_bcc_python_developer.md): Python开发教程.
 
-#### Features
+## 特性
 
-##### Kernel-Level Features
+### 内核层特性
 
 - dynamic instrumentation, kernel-level: kprobes
 - dynamic instrumentation, user-level: uprobes
@@ -30,7 +31,7 @@ It provides a C programming environment for writing kernel BPF code and other la
 - low-overhead instrumentation: BP JIT, BPF map summarizes
 - production safe: BPF verifier
 
-##### User-Level Features
+### 用户层特性
 
 - static tracing, user-level: SystemTap-stype USDT probes, via uprobes
 - debug output: Python with `BPF.trace_pipe()` and `BPF_.trace_fields()`
@@ -50,7 +51,7 @@ It provides a C programming environment for writing kernel BPF code and other la
 - reference guide: under `/docs/reference_guide.md`
 
 
-### BCC工具汇总
+## BCC工具汇总
 
 - bpftool: tool for inspection and simple manipulation of eBPF programs and maps
 
@@ -169,9 +170,9 @@ It provides a C programming environment for writing kernel BPF code and other la
 |111 | zfsdist    | | |
 |112 | zfsslower     | | |
 
-#### 1 ALL
+### 1 所有层
 
-##### tplist
+#### tplist
 
 ```
 $ tplist -v syscalls:sys_enter_read
@@ -183,7 +184,7 @@ syscalls:sys_enter_read
 
 ```
 
-##### trace
+#### trace
 
 ```
 trace [options] probe [probe ...]
@@ -198,11 +199,11 @@ eventname(signature) (boolean filter) "format string", arguments
 `eventname`:
 
 - `name`, `p:name`: 探查内核函数`name()`
-- `r::name`: 探查内核函数`name()`的返回值
+<br>`r::name`: 探查内核函数`name()`的返回
 - `lib:name`, `p:lib:name`: 探查库`lib`中用户层的函数`name()`
-- `r:lib:name`: 探查库`lib`中用户层的函数`name()`的返回值
+<br>`r:lib:name`: 探查库`lib`中用户层的函数`name()`的返回值
 - `path:name`: 探查路径`path`下用户层函数`name()`
-- `r:path:name`: 探查路径`path`下用户层函数`name()`的返回值
+<br>`r:path:name`: 探查路径`path`下用户层函数`name()`的返回值
 - `t:system:name`: 探查跟踪点`system:name`
 - `u:lib:name`: 探查库`lib`中名称为`name`的USDT探针
 - `*`: 通配符. 选项`-r`允许使用正则表达式.
@@ -214,15 +215,21 @@ The `format string` is based on `printf()`.
 ## fs/open.c
 trace 'do_sys_open "%s", arg2'
 trace 'r::do_sys_open "ret: %d", retval'
+
 ## kernel/time/hrtimer.c
 trace -U 'do_nanosleep "mode: %d", arg2'
 trace 'do_nanosleep(struct hrtimer_sleeper *t) "task: %x", t->task'
+
 ## pam lib
 trace 'pam:pam_start "%s: %s", arg1, arg2'
+
+## trace structs
+trace 'do_nanosleep(struct hrtimer_sleeper *t) "task: %x", t->task'
+trace -I 'net/sock.h' 'udpv6_sendmsg(struct sock *sk) (sk->sk_dport == 13568)'
 ```
 
 
-##### argdist
+#### argdist
 
 ```
 argdist {-C|-H} [options] probe
@@ -234,7 +241,7 @@ argdist {-C|-H} [options] probe
 `probe`:
 
 ```
-eventname(signature)[:type[,type...]:expr[,expr...][:filter][#label]]
+eventname(signature) [ :type[,type...] :expr[,expr...] [:filter] ] [#label]
 ```
 
 - `eventname`, `signature`: 同[eventname](#trace), 但不支持内核函数的简写
@@ -259,7 +266,7 @@ argdist -p 181 -C 'p:c:write(int fd):int:fd'
 argdist -C 'r::__vfs_read():u32:$PID:$lantency > 100000'
 ```
 
-##### funccount
+#### funccount
 
 ```
 funccount [options] eventname
@@ -296,9 +303,9 @@ Attaching 333 probes...
 ......
 ```
 
-##### funcslower
-##### funclatency
-##### stackcount
+#### funcslower
+#### funclatency
+#### stackcount
 
 ```
 stackcount [options] eventname
@@ -314,7 +321,7 @@ statckcount t:sched:sched_switch
 stackcount t:syscalls:sys_enter_read
 ```
 
-##### profile
+#### profile
 
 ```
 # -a: include kernel annotation
@@ -325,48 +332,48 @@ flamegraph.pl --color=java < profile.output > profile.svg
 ```
 
 
-#### 2 Applications
+### 2 应用
 
 传统工具: 系统调试器.
 
-##### ucalls
-##### uflow
-##### uobjnew
-##### ustat
-##### uthreads
-##### ugc
-##### mysqld_qslower
-##### dbstat
-##### dbslower
-##### bashreadline
-##### mysqld_clat
-##### bashfunc
-##### bashfunclat
+#### ucalls
+#### uflow
+#### uobjnew
+#### ustat
+#### uthreads
+#### ugc
+#### mysqld_qslower
+#### dbstat
+#### dbslower
+#### bashreadline
+#### mysqld_clat
+#### bashfunc
+#### bashfunclat
 
-#### 3 Runtimes
+### 3 运行时
 
 传统工具: 运行时调试器.
 
-##### javathreads
-##### jnistacks
+#### javathreads
+#### jnistacks
 
-#### 4 System Libraries
+### 4 系统库
 
 传统工具: ltrace(1).
 
-##### gethostlatency
-##### memleak
-##### sslsniff
-##### threadssnoop
-##### pmlock
-##### pmheld
+#### gethostlatency
+#### memleak
+#### sslsniff
+#### threadssnoop
+#### pmlock
+#### pmheld
 
-#### 5 System Call Interface
+### 5 系统调用接口
 
 传统工具: strace(1), perf(1).
 
-##### scread
-##### opensnoop
+#### scread
+#### opensnoop
 
 ```
 ## 跟踪所有open()系统调用
@@ -387,10 +394,10 @@ opensnoop -d 10
 - FLAGS: Flags passed to open(2), in octal
 - PATH: Open path
 
-##### statsnoop
-##### syncsnoop
-##### ioprofile
-##### syscount
+#### statsnoop
+#### syncsnoop
+#### ioprofile
+#### syscount
 
 ```
 # 每秒的系统调用计数: top10
@@ -436,20 +443,20 @@ Attaching 332 probes...
 ......
 ```
 
-##### killsnoop
-##### shellsnoop
-##### signals
-##### naptime
-##### eperm
-##### setuids
-##### elfsnoop
-##### modsnoop
-##### execsnoop
+#### killsnoop
+#### shellsnoop
+#### signals
+#### naptime
+#### eperm
+#### setuids
+#### elfsnoop
+#### modsnoop
+#### execsnoop
 
 works by tracing the execve(2) system call
 
 
-##### exitsnoop
+#### exitsnoop
 
 ```
 $ exitsnoop
@@ -459,108 +466,108 @@ tree             1412   942    1412   0.02    0
 ^C
 ```
 
-##### pidpersec
+#### pidpersec
 
-#### 6 内核
+### 6 内核
 
 传统工具: Ftrace, perf(1).
 
 
-##### 6.1 VFS
+#### 6.1 虚拟文件系统(VFS)
 
-###### filetop
-###### filelife
-###### fileslower
-###### vfscount
-###### vfsstat
-###### filetype
-###### fsrwstat
-###### vfssize
-###### mmapfiles
-###### writesync
-###### cacheestat
-###### cachetop
-###### dcstat
-###### dcsnoop
-###### mountsnoop
-###### icstat
-###### bufgrow
-###### readahead
-###### writeback
+##### filetop
+##### filelife
+##### fileslower
+##### vfscount
+##### vfsstat
+##### filetype
+##### fsrwstat
+##### vfssize
+##### mmapfiles
+##### writesync
+##### cacheestat
+##### cachetop
+##### dcstat
+##### dcsnoop
+##### mountsnoop
+##### icstat
+##### bufgrow
+##### readahead
+##### writeback
 
-##### 6.2 File Systems
+#### 6.2 文件系统
 
-###### btrfsslower, btrfsdist
-###### ext4slower, ext4dist
-###### nfsslower, nfsdist
-###### xfsslower, xfsdist
-###### zfsslower, zfsdist
-###### overlayfs
+##### btrfsslower, btrfsdist
+##### ext4slower, ext4dist
+##### nfsslower, nfsdist
+##### xfsslower, xfsdist
+##### zfsslower, zfsdist
+##### overlayfs
 
-##### 6.3 Volume Manager
+#### 6.3 卷管理器
 
-###### mdflush
+##### mdflush
 
-##### 6.4 Block Device
+#### 6.4 块设备
 
-###### biotop
-###### biosnoop
-###### biolatency
+##### biotop
+##### biosnoop
+##### biolatency
 
 summarizes block device I/O (disk I/O) as a latency histogram
 
 
-###### bitesize
-###### seeksize
-###### biopattern
-###### biostacks
-###### bioerr
-###### issched
-###### blkthrot
+##### bitesize
+##### seeksize
+##### biopattern
+##### biostacks
+##### bioerr
+##### issched
+##### blkthrot
 
-##### 6.5 Sockets
+#### 6.5 Sockets
 
-###### sofdsnoop
-###### sockstat
-###### sofamily
-###### soprotocol
-###### sormem
-###### soconnect
-###### soaccept
-###### socketio
-###### socksize
-###### soconnlat
-###### so1stbyte
-###### skbdrop
-###### skblife
+##### sofdsnoop
+##### sockstat
+##### sofamily
+##### soprotocol
+##### sormem
+##### soconnect
+##### soaccept
+##### socketio
+##### socksize
+##### soconnlat
+##### so1stbyte
+##### skbdrop
+##### skblife
 
-##### 6.6 TCP/UDP
+#### 6.6 TCP/UDP
 
-###### tcptop
-###### tcplife
-###### tcptracer
-###### tcpconnect
-###### tcpaccept
-###### tcpconnlat
-###### tcpretrans
-###### tcpsubnet
-###### tcpdrop
-###### tcpstates
-###### tcpsynbl
-###### tcpwin
-###### tcpnagle
-###### tcpreset
-###### updconnect
+##### tcptop
+##### tcplife
+##### tcptracer
+##### tcpconnect
+##### tcpaccept
+##### tcpconnlat
+##### tcpretrans
+##### tcpsubnet
+##### tcpdrop
+##### tcpstates
+##### tcpsynbl
+##### tcpwin
+##### tcpnagle
+##### tcpreset
+##### updconnect
 
-##### 6.7 IP
+#### 6.7 IP
 
-###### ipecn
-###### superping
-###### qdisc-fq
+##### ipecn
+##### superping
+##### qdisc-fq
 
-##### 6.8 Scheduler
+#### 6.8 调度器
 
-###### cpudist
+##### cpudist
 
 ```
 # 运行10秒, 输出一次
@@ -588,8 +595,8 @@ Tracing on-CPU time... Hit Ctrl-C to end.
     131072 -> 262143     : 19       |******************                      |
 ```
 
-###### cpuwalk
-###### runqlat
+##### cpuwalk
+##### runqlat
 
 ```
 # 运行10秒, 输出一次
@@ -611,7 +618,7 @@ Tracing run queue latency... Hit Ctrl-C to end.
 
 ```
 
-###### runqlen
+##### runqlen
 
 ```
 # 运行10秒, 输出一次
@@ -622,7 +629,7 @@ Sampling run queue length... Hit Ctrl-C to end.
         0          : 991      |****************************************|
 ```
 
-###### runqslower
+##### runqslower
 
 ```
 $ runqslower 100
@@ -644,9 +651,9 @@ TIME     COMM             PID           LAT(us)
 09:40:01 b'sshd'          1039             2033
 ```
 
-###### cppunclaimed
-###### deadlock
-###### offcputime
+##### cppunclaimed
+##### deadlock
+##### offcputime
 
 ```
 # -u     Only trace user threads (no kernel threads).
@@ -660,9 +667,9 @@ offcputime -fKu 10 > offcputime.output
 flamegraph.pl < offcputime.output > offcputime.svg
 ```
 
-###### wakeuptime
-###### offwaketime
-###### softirqs
+##### wakeuptime
+##### offwaketime
+##### softirqs
 
 ```
 $ softirqs 10 1
@@ -688,12 +695,12 @@ Attaching 1 probe...
 @[1]: 50
 ```
 
-###### offcpuhist
-###### threaded
-###### pidnss
-###### mlock
-###### mheld
-###### smpcalls
+##### offcpuhist
+##### threaded
+##### pidnss
+##### mlock
+##### mheld
+##### smpcalls
 
 ```
 $ bpftrace smpcalls.bt
@@ -716,38 +723,38 @@ Tracing SMP calls. Hit Ctrl-C to stop.
 [4K, 8K)               1 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
 ```
 
-###### workq
+##### workq
 
-##### 6.9 Virtual Memory
+#### 6.9 虚拟内存
 
-###### slabratetop
-###### oomkill
-###### memleak
-###### shmsnoop
-###### drssnoop
-###### kmem
-###### kpages
-###### numamove
-###### mmapsnoop
-###### brkstack
-###### faults
-###### ffaults
-###### fmapfault
-###### hfaults
-###### vmscan
-###### swapin
+##### slabratetop
+##### oomkill
+##### memleak
+##### shmsnoop
+##### drssnoop
+##### kmem
+##### kpages
+##### numamove
+##### mmapsnoop
+##### brkstack
+##### faults
+##### ffaults
+##### fmapfault
+##### hfaults
+##### vmscan
+##### swapin
 
-#### 7 硬件
+### 7 硬件
 
 传统工具: perf, sar, /proc计数器.
 
-##### 7.1 Net Device
+#### 7.1 网络设备
 
-###### ieee80211scan
+##### ieee80211scan
 
-##### 7.2 Device Drivers
+#### 7.2 设备驱动器
 
-###### hardirqs
+##### hardirqs
 
 ```
 $ hardirqs 10 1
@@ -758,15 +765,15 @@ ata_piix                            98
 enp0s3                             254
 ```
 
-###### criticalstat
-###### ttysnoop
-###### scsilatency
-###### scsiresult
-###### nvmelatency
+##### criticalstat
+##### ttysnoop
+##### scsilatency
+##### scsiresult
+##### nvmelatency
 
-##### 7.3 CPU
+#### 7.3 CPU
 
-###### llcstat
+##### llcstat
 
 ```
 # 在虚拟机中无法运行
@@ -775,12 +782,12 @@ perf_event_open failed: No such file or directory
 Failed to attach to a hardware event. Is this a virtual machine?
 ```
 
-###### cpufreq
+##### cpufreq
 
 > NOT WORK ON VIRTUALBOX INSTANCE.
 
-#### 8 Other
+### 8 其他
 
-###### capable
-###### xenhyper
-###### kvmexits
+##### capable
+##### xenhyper
+##### kvmexits
