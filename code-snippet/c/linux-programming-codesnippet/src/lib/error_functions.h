@@ -1,4 +1,4 @@
-/* error_functions.h
+/* error_functions.h 错误诊断函数
 
  Header file for error_functions.c.
  */

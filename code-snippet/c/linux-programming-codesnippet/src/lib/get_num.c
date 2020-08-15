@@ -7,7 +7,8 @@
 #include <string.h>
 #include <limits.h>
 #include <errno.h>
-#include "../include_tlpi/get_num.h"
+#include "get_num.h"
+
 /* Print a diagnostic message that contains a function name ('fname'),
  the value of a command-line argument ('arg'), the name of that
  command-line argument ('name'), and a diagnostic error message ('msg'). */
@@ -24,6 +25,7 @@ gnFail (const char *fname, const char *msg, const char *arg, const char *name)
 
   exit (EXIT_FAILURE);
 }
+
 /* Convert a numeric command-line argument ('arg') into a long integer,
  returned as the function result. 'flags' is a bit mask of flags controlling
  how the conversion is done and what diagnostic checks are performed on the
@@ -62,6 +64,7 @@ getNum (const char *fname, const char *arg, int flags, const char *name)
 
   return res;
 }
+
 /* Convert a numeric command-line argument string to a long integer. See the
  comments for getNum() for a description of the arguments to this function. */
 
@@ -70,6 +73,7 @@ getLong (const char *arg, int flags, const char *name)
 {
   return getNum ("getLong", arg, flags, name);
 }
+
 /* Convert a numeric command-line argument string to an integer. See the
  comments for getNum() for a description of the arguments to this function. */
 

@@ -1,4 +1,4 @@
-/* tlpi_hdr.h
+/* tlpi_hdr.h 通用头文件
 
  Standard header file used by nearly all of our example programs.
  */

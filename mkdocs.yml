@@ -22,11 +22,12 @@ nav:
       - 'Notes': rust/notes.md
       - 'Tools': rust/tool.md
     - 'Kernel':
-      - 'Linux Architecture': kernel/linux-arch.md
-      - 'The Linux Programming Interface': kernel/tlpi.md
-      - 'Syscall': kernel/syscall.md
-      - 'Posix in Action': kernel/posix-in-action.md
-      - 'Network':
+      - 'Linux架构': kernel/linux-arch.md
+      - 'Linux手册页': kernel/linux-man.md
+      - '系统调用': kernel/syscall.md
+      - 'UNIX环境高级编程': kernel/apue.md
+      - 'Linux编程接口': kernel/tlpi.md
+      - '网络':
         - 'TCP/IP': kernel/network/network.md
         - 'Netty': kernel/network/netty.md
         - 'NS2': kernel/network/ns2.md

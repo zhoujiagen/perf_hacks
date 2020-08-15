@@ -48,14 +48,107 @@
 ### 3.1 系统调用
 ### 3.2 库函数
 ### 3.3 标准C语言函数库；GNU C语言函数库(glibc)
+
+- [The GNU C Library (glibc)](https://www.gnu.org/software/libc/)
+
+> The GNU C Library project provides the core libraries for the GNU system and GNU/Linux systems, as well as many other systems that use Linux as the kernel. These libraries provide critical APIs including ISO C11, POSIX.1-2008, BSD, OS-specific APIs and more. These APIs include such foundational facilities as open, read, write, malloc, printf, getaddrinfo, dlopen, pthread_create, crypt, login, exit and more.
+
+``` C
+#include <gnu/libc-version.h>
+const char *gnu_get_libc_version(void);
+  // Returns pointer to null-terminated, statically allocated string containing GNU C library version number
+```
+
 ### 3.4 处理来自系统调用和库函数的错误
+
+``` C
+#include <stdio.h>
+void perror(const char *msg);
+```
+
+``` C
+#include <string.h>
+char *strerror(int errnum);
+  // Returns pointer to error string corresponding to errnum
+```
+
 ### 3.5 关于本书示例程序的注意事项
 #### 3.5.1 命令行选项及参数
 #### 3.5.2 常用的函数及头文件
+
+```
+lib/tlpi_hdr.h
+
+lib/error_functions.h
+lib/error_functions.c
+lib/ename.c.inc
+
+lib/get_num.h
+lib/get_num.c
+```
+
 ### 3.6 可移植性问题
 #### 3.6.1 特性测试宏
+
+```
+_POSIX_SOURCE
+_POSIX_C_SOURCE
+_XOPEN_SOURCE
+
+glibc-specific:
+_BSD_SOURCE
+_SVID_SOURCE
+_GNU_SOURCE
+```
+
+
 #### 3.6.2 系统数据类型
+
+- blkcnt_t<br>signed integer,  File block count (见15.1)
+- blksize_t<br>signed integer,  File block size (见15.1)
+- cc_t<br>unsigned integer, Terminal special character (见62.4)
+- clock_t<br>integer or real-floating, System time in clock ticks (见10.7)
+- clockid_t<br>an arithmetic type, Clock identifier for POSIX.1b clock and timer functions (见23.6)
+- comp_t<br>not in SUSv3, Compressed clock ticks (见28.1)
+- dev_t<br>an arithmetic type, Device number, consisting of major and minor numbers (见15.1)
+- DIR<br>no type, requirement Directory stream (见18.8)
+- fd_set<br>structure type, File descriptor set for select() (见63.2.1)
+- fsblkcnt_t<br>unsigned integer, File-system block count (见14.11)
+- fsfilcnt_t<br>unsigned integer, File count (见14.11)
+- gid_t<br>integer, Numeric group identifier (见8.3)
+- id_t<br>integer, A generic type for holding identifiers; large enough to hold at least pid_t, uid_t, and gid_t
+- in_addr_t<br>32-bit unsigned integer, IPv4 address (见59.4)
+- in_port_t<br>16-bit unsigned integer, IP port number (见59.4)
+- ino_t<br>unsigned integer, File i-node number (见15.1)
+- key_t<br>an arithmetic type, System V IPC key (见45.2)
+- mode_t<br>integer, File permissions and type (见15.1)
+- mqd_t<br>no type requirement, but shall not be an array type, POSIX message queue descriptor
+- msglen_t<br>unsigned integer, Number of bytes allowed in System V message queue (46.4)
+- msgqnum_t<br>unsigned integer, Counts of messages in System V message queue (见46.4)
+- nfds_t<br>unsigned integer, Number of file descriptors for poll() (见63.2.2)
+- nlink_t<br>integer, Count of (hard) links to a file (见15.1)
+- off_t<br>signed integer, File offset or size (见4.7 and 15.1)
+- pid_t<br>signed integer, Process ID, process group ID, or session ID (见6.2, 34.2, and 34.3)
+- ptrdiff_t<br>signed integer, Difference between two pointer values, as a signed integer
+- rlim_t<br>unsigned integer, Resource limit (见36.2)
+- sa_family_t<br>unsigned integer, Socket address family (见56.4)
+- shmatt_t<br>unsigned integer, Count of attached processes for a System V shared memory segment (见48.8)
+- sig_atomic_t<br>integer, Data type that can be atomically accessed (见21.1.3)
+- siginfo_t<br>structure type, Information about the origin of a signal (见21.4)
+- sigset_t<br>integer or structure type, Signal set (见20.9)
+- size_t<br>unsigned integer, Size of an object in bytes
+- socklen_t<br>integer type of at least 32 bits, Size of a socket address structure in bytes (见56.3)
+- speed_t<br>unsigned integer, Terminal line speed (见62.7)
+- ssize_t<br>signed integer, Byte count or (negative) error indication
+- stack_t<br>structure type, Description of an alternate signal stack (见21.3)
+- suseconds_t<br>signed integer allowing range ``[–1, 1000000]``, Microsecond time interval (见10.1)
+- tcflag_t<br>unsigned integer, Terminal mode flag bit mask (见62.2)
+- time_t<br>integer or real-floating, Calendar time in seconds since the Epoch (见10.1)
+- timer_t<br>an arithmetic type, Timer identifier for POSIX.1b interval timer functions (见23.6)
+- uid_t<br>integer, Numeric user identifier (见8.1)
+
 #### 3.6.3 其他的可移植性问题
+
 ### 3.7 总结
 ### 3.8 练习
 
@@ -93,22 +186,138 @@
 ## 6 进程
 ### 6.1 进程和程序
 ### 6.2 进程号和父进程号
+
+``` C
+#include <unistd.h>
+pid_t getpid(void);
+  // Always successfully returns process ID of caller
+```
+
+``` C
+#include <unistd.h>
+pid_t getppid(void);
+  // Always successfully returns process ID of parent of caller
+```
+
+``` C
+#include <stdlib.h>
+int putenv(char *string);
+  // Returns 0 on success, or nonzero on error
+```
+
+``` C
+#include <stdlib.h>
+int setenv(const char *name, const char *value, int overwrite);
+  // Returns 0 on success, or –1 on error
+```
+
+``` C
+#include <stdlib.h>
+int unsetenv(const char *name);
+  // Returns 0 on success, or –1 on error
+```
+
+``` C
+#define _BSD_SOURCE /* Or: #define _SVID_SOURCE */
+#include <stdlib.h>
+int clearenv(void)
+  // Returns 0 on success, or a nonzero on error
+```
+
 ### 6.3 进程内存布局
 ### 6.4 虚拟内存管理
 ### 6.5 栈和栈帧
 ### 6.6 命令行参数(argc, argv)
 ### 6.7 环境列表
+
+``` C
+#include <stdlib.h>
+char *getenv(const char *name);
+  // Returns pointer to (value) string, or NULL if no such variable
+```
+
+``` C
+#include <stdlib.h>
+int putenv(char *string);
+  // Returns 0 on success, or nonzero on error
+```
+
+
 ### 6.8 执行非局部跳转：setjmp()和longjmp()
+
+``` C
+#include <setjmp.h>
+int setjmp(jmp_buf env);
+  // Returns 0 on initial call, nonzero on return via longjmp()
+
+void longjmp(jmp_buf env, int val);
+```
+
 ### 6.9 总结
 ### 6.9 练习
 
 ## 7 内存分配
 ### 7.1 在堆上分配内存
 #### 7.1.1 调整program break：brk()和sbrk()
+
+``` C
+#include <unistd.h>
+int brk(void *end_data_segment);
+  // Returns 0 on success, or –1 on error
+
+void *sbrk(intptr_t increment);
+  // Returns previous program break on success, or (void *) –1 on error
+```
+
 #### 7.1.2 在堆上分配内存：malloc()和free()
+
+``` C
+#include <stdlib.h>
+void *malloc(size_t size);
+  // Returns pointer to allocated memory on success, or NULL on erro
+```
+
+``` C
+#include <stdlib.h>
+void free(void *ptr);
+```
+
 #### 7.1.3 malloc()和free()的实现
 #### 7.1.4 在堆上分配内存的其他方法
+
+``` C
+#include <stdlib.h>
+void *calloc(size_t numitems, size_t size);
+  // Returns pointer to allocated memory on success, or NULL on error
+```
+
+``` C
+#include <stdlib.h>
+void *realloc(void *ptr, size_t size);
+  // Returns pointer to allocated memory on success, or NULL on error
+```
+
+``` C
+#include <malloc.h>
+void *memalign(size_t boundary, size_t size);
+  // Returns pointer to allocated memory on success, or NULL on error
+```
+
+``` C
+#include <stdlib.h>
+int posix_memalign(void **memptr, size_t alignment, size_t size);
+  // Returns 0 on success, or a positive error number on error
+```
+
+
 ### 7.2 在堆栈上分配内存：alloca()
+
+``` C
+#include <alloca.h>
+void *alloca(size_t size);
+  // Returns pointer to allocated block of memory
+```
+
 ### 7.3 总结
 ### 7.4 练习
 
