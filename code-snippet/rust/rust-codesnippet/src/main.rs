@@ -11,12 +11,14 @@ mod tests;
 mod basic_types;
 mod ownership;
 mod references;
+mod smart_pointers;
 
 fn main() {
     // tour();
-    basic_types();
+    // basic_types();
     // ownership();
     // references();
+    smart_pointers();
     // expressions();
     // error_handling();
     // structs();
@@ -70,6 +72,14 @@ fn references() {
     // example_reference::example_main();
     example_ref_as_values::example_main();
 }
+
+/// 智能指针
+#[allow(dead_code)]
+fn smart_pointers() {
+    use crate::smart_pointers::*;
+    example_weak::example_main();
+}
+
 
 /// 表达式
 #[allow(dead_code)]

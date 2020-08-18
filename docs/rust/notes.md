@@ -19,7 +19,7 @@
 
 ### Vocabulary
 
-- ownership: 属主关系
+- ownership: 属主关系, 所有者关系
 - move: 移动
 - borrow: 借
 - reference: 引用
@@ -34,6 +34,7 @@
 - concurrency: 并发
 - macros: 宏
 - unsafe code: 不安全的代码
+- raw pointers: 裸指针
 
 ## 3 基本类型
 
@@ -71,9 +72,16 @@
 - Rust的引用从不为null
 - 可以引用栈或堆中的值
 
-#### 箱(Boxes)
+#### 智能指针
 
-```
+- `Rc<T>`允许一份数据多个所有者, 而`Box<T>`、`RefCell<T>`都只有一个所有者.
+- `Box<T>`允许在编译时检查的可变或不可变借用; <br>`Rc<T>`仅允许编译时检查的不可变借用; <br>`RefCell<T>`允许运行时检查的可变或不可变借用.
+- `RefCell<T>`本身是不可变的, 但允许在运行时检查可变借用, 所以能够改变其中存储的值.
+
+
+##### 箱(Boxes): `Box<T>`
+
+``` rust
 let t = (12, "eggs");
 let b = Box::new(t);  // 在堆中分配元组
 ```
@@ -81,12 +89,25 @@ let b = Box::new(t);  // 在堆中分配元组
 - `b`的类型: `Box<i32, &str>`
 - 当`b`离开作用域时, 其内存立即释放, 处理已被移动(例如在函数中返回)
 
-#### 原始指针(Raw Pointers)
+##### 引用计数: `Rc<T>`, `Arc<T>`
+
+
+##### 内部可变模式: `RefCell<T>`, ``
+
+#### 裸指针(Raw Pointers)
 
 - `*mut T`
 - `*const T`
 - 使用原始指针是不安全的
 - 只能在`unsafe`块中借引用原始指针
+
+裸指针与引用、智能指针的区别:
+
+- 允许忽略借用规则, 可以同时拥有指向同一个内存地址的可变和不可变指针, 或者拥有指向同一个地址的多个可变指针;
+- 不能保证自己总是指向了有效的内存地址;
+- 允许为空;
+- 没有实现任何自动清理机制.
+
 
 ### 数组, 向量, 切片
 
@@ -100,9 +121,80 @@ let b = Box::new(t);  // 在堆中分配元组
 
 ## 4 属主关系(Ownership)
 
+### 所有权规则
+
+- Rust的每个值都有一个对应的变量作为它的所有者;
+- 在同一时间内, 值有且仅有一个所有者;
+- 当所有者离开他自己的作用域时, 它持有的值就会被释放掉.
+
 ## 5 引用(References)
 
+### 引用的规则
+
+- 在任何一段给定的时间内, 要么只能拥有一个可变引用, 要么只能拥有任意数量的不可变引用;
+- 引用总是有效的.
+
+### 自动引用和解引用
+
+当使用`object.something()`调用方法时, Rust会自动为调用者`object`添加`&`、`& mut`或`*`, 以使其能够符合方法的签名.
+
+例如:
+
+``` rust
+p1.distance(&p1);   // 等价于:
+(&p1).distance(&p2);
+```
+
+### 解引用转换(deref coercion)
+
+当某个类型`T`实现了`Deref` trait时, Rust能够将`T`的引用转换为`T`经过`Deref`操作后生成的引用. 当将某个类型的值引用作为参数传递给函数或方法, 但传入的类型与参数类型不一致时, 解引用转换自动发生: 编译器或插入一些列的`deref()`将提供的类型转换为参数所需的类型.
+
+Rust会在类型与trait满足下面情形时, 执行解引用转换:
+
+- 当`T: Deref<Target=U>`时, 运行`&T`转换为`&U`;
+- 当`T: DerefMut<Target=U>`时, 允许`&mut T`转换为`&mut U`;
+- 当`T: Deref<Target=U>`时, 允许`&mut T`转换为`&U`.
+
+
+例:
+
+``` rust
+struct MyBox<T>(T);
+
+impl<T> MyBox<T> {
+  fn new(x: T) -> MyBox<T> {
+    MyBox(x)
+  }
+}
+
+use std::ops::Deref;
+impl<T> Deref for MyBox<T> {
+  type Target = T;
+
+  // 返回一个指向值的引用, 允许调用者通过*运算符访问值
+  fn deref(&self) -> &T {
+    &self.0
+  }
+}
+
+
+fn hello(name: &str) {
+  println!("Hello, {}", name);
+}
+
+fn main() {
+  let m = MyBox::new(String::from("Rust"));
+
+  // 解引用转换: &MyBox<String> => &String => &str
+  hello(&m); // 等价于:
+  hello(&(*m)[..]);
+}
+```
+
+
 ## 6 表达式
+
+- [表达式的优先级](https://doc.rust-lang.org/reference/expressions.html#expression-precedence)
 
 ## 7 错误处理
 
@@ -112,7 +204,41 @@ let b = Box::new(t);  // 在堆中分配元组
 
 ## 10 枚举和模式
 
+### 模式匹配
+
+可以使用模式的场景:
+
+- `match`分支
+- `if let`条件表达式
+- `while let`条件循环
+- `for`循环
+- `let`语句
+- 函数的参数
+
 ## 11 特质(Traits)和泛型(Generics)
+
+### trait对象
+
+trait对象被专门用于抽象某些共有行为.
+
+trait对象能够指向实现了指定trait的类型实例, 以及一个在运行时查找trait方法的表.
+
+创建trait对象: 选用一种指针(例如`&`引用或`Box<T>`智能指针等), 并添加`dyn`关键字与指定相关trait. 例:
+
+``` rust
+pub trait Draw {
+  fn draw(&self);
+}
+
+pub struct Screen {
+  pub components: Vec<Box<dyn Draw>>,
+}
+
+// 使用带有trait约束的泛型参数
+//pub struct Screen<T: Draw> {
+//  pub components: Vec<T>,
+//}
+```
 
 ## 12 操作符重载
 
@@ -159,4 +285,19 @@ let b = Box::new(t);  // 在堆中分配元组
 
 ## 20 宏(Macros)
 
+### 声明宏: `macro_rules!`
+
+### 过程宏
+
+#### 自定义派生宏: `#[proc_macro_derive(Xxx)`
+#### 属性宏: `#[proc_macro_attribute]`
+#### 函数宏: `#[proc_macro]`
+
 ## 21 不安全的代码(Unsafe Code)
+
+不安全超能力(unsafe superpower):
+
+- 解引用裸指针
+- 调用不安全的函数或方法
+- 访问或修改可变的静态变量
+- 实现不安全trait
