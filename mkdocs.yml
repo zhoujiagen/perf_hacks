@@ -18,6 +18,10 @@ nav:
       - 'C++ Primer': cplusplus/primer.md
       - 'Tool': cplusplus/tool.md
       - 'C++ 11': cplusplus/CXX11-Standard.md
+    - Golang:
+      - 'Tutorial': golang/tutorial.md
+      - 'Tools': golang/tool.md
+      - 'Specification': golang/tgpls.md
     - Rust:
       - 'Notes': rust/notes.md
       - 'Tools': rust/tool.md
