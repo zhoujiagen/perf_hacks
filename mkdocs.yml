@@ -15,7 +15,7 @@ nav:
       - 'Lib': clang/clib.md
       - 'Tool': clang/tool.md
     - 'C++':
-      - 'C++ Primer': cplusplus/primer.md
+      - 'Q&A': cplusplus/QA.md
       - 'Tool': cplusplus/tool.md
       - 'C++ 11': cplusplus/CXX11-Standard.md
     - Golang:
