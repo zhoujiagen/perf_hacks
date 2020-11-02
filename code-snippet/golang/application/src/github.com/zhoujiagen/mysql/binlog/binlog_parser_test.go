@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/zhoujiagen/application/mysql"
+	"github.com/zhoujiagen/mysql"
 )
 
 func TestParser(t *testing.T) {

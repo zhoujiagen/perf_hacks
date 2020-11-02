@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func testConstant(t *testing.T) {
+func TestConstant(t *testing.T) {
 	for k, v := range ColumnType {
 		fmt.Printf("%d=%s\n", k, v)
 	}

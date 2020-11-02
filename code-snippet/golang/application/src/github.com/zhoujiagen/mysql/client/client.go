@@ -7,7 +7,7 @@ import (
 	"log"
 	"net"
 
-	"github.com/zhoujiagen/application/mysql"
+	"github.com/zhoujiagen/mysql"
 )
 
 const (

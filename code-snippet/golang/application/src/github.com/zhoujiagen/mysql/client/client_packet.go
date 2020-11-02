@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"log"
 
-	"github.com/zhoujiagen/application/mysql"
+	"github.com/zhoujiagen/mysql"
 )
 
 type PacketHeader struct {
