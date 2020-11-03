@@ -28,7 +28,7 @@ import (
 
 	"google.golang.org/grpc"
 	//pb "google.golang.org/grpc/examples/helloworld/helloworld"
-	pb "github.com/zhoujiagen/application/examples/grpc/helloworld"
+	pb "github.com/zhoujiagen/examples/grpc/helloworld"
 )
 
 const (

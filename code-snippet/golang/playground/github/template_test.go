@@ -1,12 +1,10 @@
-package examples
+package github
 
 import (
 	"os"
 	"testing"
 	"text/template"
 	"time"
-
-	"github.com/zhoujiagen/application/github"
 )
 
 // 展示了模板语言: 动作, 循环, 函数
@@ -28,7 +26,7 @@ var textReport = template.Must(template.New("issuelist").
 
 func TestTemplate(t *testing.T) {
 	terms := []string{"HBase"}
-	result, err := github.SearchIssue(terms)
+	result, err := SearchIssue(terms)
 	if err != nil {
 		t.Error(err)
 	}

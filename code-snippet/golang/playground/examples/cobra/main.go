@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/zhoujiagen/application/examples/cobra/cmd"
+	"github.com/zhoujiagen/examples/cobra/cmd"
 )
 
 func main() {

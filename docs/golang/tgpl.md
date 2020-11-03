@@ -5,6 +5,7 @@
 |20190717| kick off.|
 |20191021| re-kick off. add notes of variable, package.|
 |20191022| add notes of basic and composite types.|
+|20201102| add content outline for each section.|
 
 
 ```
@@ -21,6 +22,17 @@
 
 
 ## 程序结构
+
+内容:
+
+- 名称
+- 声明
+- 变量
+- 赋值
+- 类型声明
+- 包和文件
+- 作用域
+
 ### 名称
 
 名称是大小写敏感的. 如果名称以大写字母开始, 它是导出的. 包名总是小写的.
@@ -66,7 +78,7 @@ panic recover
 
 Go程序存储在`.go`后缀的文件中. 每个文件以`package`声明开始, 后接任意数量的`import`声明, 然后是一组类型、变量、常量和函数的包级声明.
 
-#### var: 变量
+### 变量
 
 ``` go
 var name type = expression
@@ -170,7 +182,7 @@ fmt.Println(&x == &x, &x == &y, &y == nil)	// true, false, false
 - 包级变量: 它们的生命周期和整个程序的运行周期是一致的
 - 局部变量: 动态的, 每次执行声明语句时创建一个新实例, 直到该变量不再被引用为止, 然后变量的存储空间可能被回收; 函数的参数变量和返回值变量都是局部变量.
 
-##### 赋值
+### 赋值
 
 变量的值由赋值语句更新: `variable = expression`.
 
@@ -202,43 +214,7 @@ _, ok = x.(T) // 类型断言, 使用空标识符
 两个值是否可以用`==` 或`!=` 进行相等比较与可赋值性有关系: 在任何比较中, 第一个操作数必须可以对第一个操作数的类型是可赋值的, 反之亦然.
 
 
-#### const: 常量
-
-常量是编译器已知其值的表达式, 它在编译时求值.
-常量的底层类型是: 布尔、字符串、数值.
-
-常量序列:
-
-``` go
-const (
-	a = 1
-	b
-	c = 2
-	d
-)
-fmt.Println(a,b,c,d) // 1 1 2 2
-```
-
-常量生成器`iota`:
-
-``` go
-const (
-	Sunday Weekday = iota
-	Monday
-	Tuesday
-	Wednesday
-	Thursday
-	Friday
-	Saturaty
-)
-
-fmt.Println(Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturaty) // 0 1 2 3 4 5 6
-```
-
-无类型的常量(untyped constants): 无类型布尔型、无类型整数、无类型rune、无类型浮点数、无类型复数、无类型字符串.
-
-
-#### type: 类型
+### 类型声明
 
 类型声明定义了一个新的命名的类型, 与既有类型由相同的底层类型. 类型声明通常在包级出现.
 
@@ -263,97 +239,65 @@ type name underlying-type
 
 ==Go的类型== 有四类:
 
-- 基本类型: 数值、字符串、布尔型
-- 聚合类型: 数组、结构
-- 引用类型: 指针、切片、映射、函数和通道
-- 接口类型.
+- 基本类型(basic types): 数值、字符串、布尔型
+- 聚合类型(aggregate types): 数组、结构
+- 引用类型(reference types): 指针、切片、映射、函数和通道
+- 接口类型(interface types).
 
-==类型断言(type assertion)==: `x.(T)`, `x`是接口类型的表达式, `T`是一个类型, 称为被断言的类型.
-类型断言检查操作数的动态类型是否与被断言的类型匹配.
+### 包和文件
 
-- `T`是具体类型
+一个包的源代码在一个或多个`.go`文件中, 通常在以导入路径结尾的目录下, 例如包`xxx/helloworld`的文件在目录`$GOPATH/src/xxx/helloworld`中.
 
-类型断言检查`x`的动态类型是否与`T`一致:<br>
-(1) 一致: 类型断言的结果是`x`的动态值, 类型为`T`; 即提取了操作数的具体值.<br>
-(2) 不一致: panic.
+包提供了它的声明的命名空间, 也提供了控制命名是否外部可见的机制: 以大写字母开头的标识符是导出的.
 
-- `T`是接口类型
+#### 导入
 
-类型断言检查`x`的动态类型是否满足`T`:<br>
-(1) 满足: 不提取动态值, 结果仍是接口值(保持了动态类型和动态值), 但结果有接口类型`T`; 即改变了表达式的类型, 使得可访问一组不同的方法, 但保持了接口值中的动态类型和动态值.<br>
-(2) 不满足: panic.
+每个包由称为导入路径的唯一的字符串标识, 语言规范没有定义这些字符串的来源和含义, 它们是由工具解释的.
 
-注意: 如果操作数是空接口值, 类型断言失败.
+每个包有一个包名称, 是出现在它的`package`声明中的短名称(不需要是唯一的).
+通常包的名称与导入路径的最后一个片段相同, 例如包`xxx/tempconv`的名称是`tempconv`.
 
-
-下面的实例中类型、方法、变量的签名:
+示例:
 
 ``` go
-// io.Writer: 接口类型
-type Writer interface {
-    Write(p []byte) (n int, err error)
-}
-type Reader interface {
-    Read(p []byte) (n int, err error)
-}
-type ReadWriter interface {
-    Reader
-    Writer
-}
+// 导入声明, Sin的本地名称
+import   "lib/math"         math.Sin
+import m "lib/math"         m.Sin
+import . "lib/math"         Sin
 
-// os.Stdout: 具体值
-var (
-    Stdin  = NewFile(uintptr(syscall.Stdin), "/dev/stdin")
-    Stdout = NewFile(uintptr(syscall.Stdout), "/dev/stdout")
-    Stderr = NewFile(uintptr(syscall.Stderr), "/dev/stderr")
-)
-func NewFile(fd uintptr, name string) *File
-type File struct {
-}
-func (f *File) Read(b []byte) (n int, err error)
-func (f *File) Write(b []byte) (n int, err error)
-
-// bytes.Buffer: 具体类型
-type Buffer struct {
-}
-func (b *Buffer) Write(p []byte) (n int, err error)
-
-// 第7章中
-type ByteCounter int
-func (c *ByteCounter) Write(p []byte) (int, error)
+// 只为使用包的副作用(作用)
+import _ "lib/math"
 ```
 
-``` go
-var w io.Writer
-w = os.Stdout
-f := w.(*os.File) // success
-c := w.(*bytes.Buffer) // panic
-```
+#### 包初始化
 
-``` go
-var w io.Writer
-w = os.Stdout
-rw := w.(io.ReaderWriter) // success
-```
+包的初始化以初始化包级变量开始, 按解析依赖后的声明的顺序.
 
-``` go
-var w io.Writer
-w = new(ByteCounter)
-rw := w.(io.ReadWriter) // panic
-```
+如果包中有多个`.go`文件, 按`go`工具调用编译器之前排列的顺序初始化这些文件.
 
-测试是否是某个特定类型: 返回两个值, 如果操作失败, 第二个值为false, 第一个值为被断言的类型的零值.
+每个文件可以包含任意数量的`init`函数, 其声明为`func init() {/* ... */}`; 在程序执行前按声明的顺序执行.
 
-``` go
-var w io.Writer = os.Stdout
-f, ok := w.(*os.File) // success: ok, f == os.Stdout
-b, ok := w.(*bytes.Buffer) // failure: !ok, b == nil
-```
+按程序中导入的顺序一次初始化一个包, 被依赖的包优先, 最后初始化包`main`. 例如包`p`中导入了包`q`, 则`q`在开始初始化`p`之前已经完全初始化了.
+
+### 作用域
+
+- 词法作用域: 名称遮盖问题
+- 声明分类: 包级、文件级、局部
+- `:=`是声明, `=`是赋值
 
 
-##### 基础数据类型
+## 基础数据类型
 
-###### 整数
+内容:
+
+- 整数
+- 浮点数
+- 复数
+- 布尔型
+- 字符串
+- 常量
+
+### 整数
 
 ``` go
 int8, int16, int32, int64
@@ -404,7 +348,7 @@ uintptr // 宽度不定但可持有指针值的所有位, 用于底层编程
 
 头两行的操作符有相应的赋值操作符, 例如`+=`.
 
-###### 浮点数
+### 浮点数
 
 标准: IEEE 754.
 
@@ -423,7 +367,7 @@ nan := math.NaN()
 fmt.Println(nan == nan, nan < nan, nan > nan) // 不可比较: false false false
 ```
 
-###### 复数
+### 复数
 
 ``` go
 complex64 complex128
@@ -433,7 +377,7 @@ complex real imag // 函数
 math/cmplx包
 ```
 
-###### 布尔类型
+### 布尔类型
 
 ``` go
 bool
@@ -441,7 +385,7 @@ bool
 true false // 值
 ```
 
-###### 字符串
+### 字符串
 
 字符串是不可变的字节序列. 文本字符串通常被解释为Unicode码点(rune)的UTF-8编码的序列.
 
@@ -538,9 +482,52 @@ fmt.Println(string(0x4eac)) // 京
 - unicode
 - path, path/filepath
 
-##### 复合数据类型
 
-###### 数组
+### 常量
+
+常量是编译器已知其值的表达式, 它在编译时求值.
+常量的底层类型是: 布尔、字符串、数值.
+
+常量序列:
+
+``` go
+const (
+	a = 1
+	b
+	c = 2
+	d
+)
+fmt.Println(a,b,c,d) // 1 1 2 2
+```
+
+常量生成器`iota`:
+
+``` go
+const (
+	Sunday Weekday = iota
+	Monday
+	Tuesday
+	Wednesday
+	Thursday
+	Friday
+	Saturaty
+)
+
+fmt.Println(Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturaty) // 0 1 2 3 4 5 6
+```
+
+无类型的常量(untyped constants): 无类型布尔型、无类型整数、无类型rune、无类型浮点数、无类型复数、无类型字符串.
+
+## 复合数据类型
+
+内容:
+
+- 数组
+- 切片
+- 映射
+- 结构体
+
+### 数组
 
 数组是特定类型的零个或多个元素的定长序列. 长度作为数组类型的一部分, 例如`[3]int`与`[4]int`不是同一类型.
 
@@ -580,7 +567,7 @@ arrayPtrAsParamater(&arr) // [3]int, [1 2 -1]
 fmt.Printf("%T, %v\n", arr, arr) // [3]int, [1 2 -1]
 ```
 
-###### 切片
+### 切片
 
 切片表示同一个类型的元素的变长序列, 切片的类型记为`[]T`, `T`为元素的类型.
 
@@ -607,58 +594,166 @@ fmt.Printf("%T, %v\n", arr, arr) // [3]int, [1 2 -1]
 - BIF `append`
 - BIF `copy`
 
-###### 映射
+### 映射
 
-映射是一个哈希表, 类型为`map[K]V`, `K`和`V`分别是键值的类型; 类型`K`必须可以通过`==`比较.
+映射是一个哈希表的引用, 类型为`map[K]V`, `K`和`V`分别是键值的类型;
+同一个映射中的所有键的类型相同, 所有值的类型相同;
+类型`K`必须可以通过`==`比较: 需要使用不可比较的类型作为键时, 可以使用辅助函数将其转换为可比较的类型.
 
-
-创建:
+一些基本操作:
 
 ``` go
+// 创建
 a := make(map[string]int)
-fmt.Printf("%T, %v\n", a, a) // map[string]int, map[]
 
+// 映射字面量
 ages := map[string]int{
   "alice": 31,
   "bob": 32,
 }
-fmt.Printf("%T, %v\n", ages, ages) // map[string]int, map[alice:31 bob:32]
-```
 
-访问, 删除:
-
-``` go
+// 访问
 ages["alice"] = 32
-fmt.Println(ages["alice"]) // 32
+// 键不存在时返回值类型的零值
+ages["carl"] = ages["carl"] + 1
+// 简写形式:
+ages["david"] += 1
 
+// 映射的元素不是变量
+_ = &ages["bob"]          // error
+
+// 删除
 delete(ages, "alice")
 
-fmt.Println(ages["alice"]) // 0
+// 检测键是否存在
 value, ok := ages["alice"]
-fmt.Println(value, ok) // 0 false
+if age, ok := ages["bob"]; !ok { /* ... */ }
 ```
 
-映射的零值是`nil`, 必须先分配后再存储.
+映射的零值是`nil`, 必须先分配后再存储:
 
-可比较性: 映射不可比较.
+``` go
+var ages map[string]int
+ages == nil     // true
+len(ages) == 0  // true
 
-###### 结构
+ages["carl"] = 21 // panic
+```
 
-结构是一个聚合数据类型, 将零个或多个任意类型的命名的值组合在一起; 每个值称为字段(field).
-空结构类型: `struct{}`.
+可比较性: 映射不可比较, 只能与`nil`比较.
 
-字段的顺序对结构类型的标识是重要的.
+### 结构体
 
-结构的零值由各字段的零值构成.
-
-可比较性: 如果每个字段都是可比较的, 该结构是可比较的.
-
-结构内嵌机制: 匿名字段有隐式的名称, 点表达式中是可选的.
+结构体是一个聚合数据类型, 将零个或多个任意类型的命名的值组合在一起; 每个值称为字段(field).
 
 
-##### 接口类型
+字段的顺序对结构体类型的标识是重要的.
 
-#### func: 函数
+结构体的零值由各字段的零值构成.
+
+例:
+
+``` go
+type Emplyee struct {
+  ID int
+  Name, Address string
+  Dob time.Time
+  Position string
+  Salary int
+  ManagerID int
+}
+
+var dilbert Employee
+
+dilbert.Salary -= 5000
+
+positon := &dilbert.position
+*position = "Senior " + *position
+
+var employeeOfTheMonth *Employee = &dilbert
+employeeOfTheMonth.Position += " (proactive team player)"
+(*employeeOfTheMonth).Position += " (proactive team player)"
+
+```
+
+命名的结构体类型`S`中不能声明类型为`S`的字段, 但可以声明类型为`*S`的字段:
+
+``` go
+type tree struct {
+  value int
+  left, right *tree;
+}
+```
+空结构体类型: `struct{}`, 其值为`struct{}{}`.
+
+结构体字面量:
+
+``` go
+type Point struct { X,Y int }
+
+p := Point{1,2}
+pptr := &Point{1,2}
+
+anim := git.GIF{LoopCount: nframes}
+```  
+
+可比较性: 如果每个字段都是可比较的, 该结构体是可比较的.
+
+结构体内嵌机制(struct embedding): 匿名字段(anonymous fields)有隐式的名称, 点表达式中是可选的, 它的类型必须是命名类型或命名类型的指针(不一定非得是结构体类型). 例:
+
+
+``` go
+type Point struct {
+  X, Y int
+}
+
+type Circle struct {
+  Point             // 匿名字段
+  Radius int
+}
+
+type Wheel struct {
+  Circle            // 匿名字段
+  Spokes int
+}
+
+var w Wheel
+w.X = 8       // 短形式, 等价于: w.Circle.Point.X = 8
+w.Y = 8       // w.Circle.Point.Y = 8
+w.Radius = 5  // w.Circle.Radius = 5
+w.Spoke = 20
+
+// 字面量: 必须按类型声明时的形状定义
+w = Wheel{Circle{Point{8,8}, 5}, 20}
+w = Wheel{
+  Circle: Circle{
+    Point: Point{X:8, Y:8},
+    Radius: 5,
+  },
+  Spokes: 20,
+}
+```
+因为匿名字段有隐式的名称, 所以在同一结构体类型中不能有两个相同类型的匿名字段; 匿名字段的类型未导出时也可以使用短形式.
+
+## 函数
+
+内容:
+
+- 函数声明
+- 递归
+- 多返回值
+- 错误
+- 函数值
+- 匿名函数
+- 变长参数函数
+- 延后的方法调用
+- `panic`
+- `recover`
+
+参数:
+
+- parameter: 参数/形参;
+- argument: 传递参数/实参.
 
 函数声明:
 
@@ -683,58 +778,255 @@ fmt.Printf("%T\n", add) // func(int, int) int
 ```
 
 
-##### 方法
+## 方法
 
+内容:
 
-### 包和文件
+- 方法声明
+- 指针接收者方法
+- 使用结构体嵌入组合类型
+- 方法值和表达式
+- 封装
 
-一个包的源代码在一个或多个`.go`文件中, 通常在以导入路径结尾的目录下, 例如包`xxx/helloworld`的文件在目录`$GOPATH/src/xxx/helloworld`中.
+### 方法声明
 
-包提供了它的声明的命名空间, 也提供了控制命名是否外部可见的机制: 以大写字母开头的标识符是导出的.
+方法声明与函数的不同点在于函数名称前有一个额外的参数, 这个参数将函数附加到该参数的类型上; 这个参数称为方法的接收者(receiver).
 
-#### 导入
-
-每个包由称为导入路径的唯一的字符串标识, 语言规范没有定义这些字符串的来源和含义, 它们是由工具解释的.
-
-每个包有一个包名称, 是出现在它的`package`声明中的短名称(不需要是唯一的).
-通常包的名称与导入路径的最后一个片段相同, 例如包`xxx/tempconv`的名称是`tempconv`.
-
-示例:
+例:
 
 ``` go
-// 导入声明, Sin的本地名称
-import   "lib/math"         math.Sin
-import m "lib/math"         m.Sin
-import . "lib/math"         Sin
+type Point struct { X, Y float64 }
 
-// 只为使用包的副作用(作用)
-import _ "lib/math"
+func Distance(p, q Point) float64 { /* ... */ } // 函数
+func (p Point) Distance(q Point) float64 { /* ... */ } // 方法, 名称为Point.Distance
 ```
 
-#### 包初始化
+选择器(selector): 如表达式`p.Distance`; 也可用于选择结构体类型的字段, 如`p.X`.
 
-包的初始化以初始化包级变量开始, 按解析依赖后的声明的顺序.
+方法与字段共用一个命名空间: 在结构体类型上不能定义与字段名称相同的方法. 每个类型有自己的方法名称空间, 给定类型的所有方法名称必须唯一.
 
-如果包中有多个`.go`文件, 按`go`工具调用编译器之前排列的顺序初始化这些文件.
+方法可以在定义在同一包中的命名类型上声明, 要求这个类型的底层类型不能是指针或接口.
 
-每个文件可以包含任意数量的`init`函数, 其声明为`func init() {/* ... */}`; 在程序执行前按声明的顺序执行.
 
-按程序中导入的顺序一次初始化一个包, 被依赖的包优先, 最后初始化包`main`. 例如包`p`中导入了包`q`, 则`q`在开始初始化`p`之前已经完全初始化了.
+### 指针接收者方法
 
-### 作用域
+例:
 
-- 词法作用域: 名称遮盖问题
-- 声明分类: 包级、文件级、局部
-- `:=`是声明, `=`是赋值
+``` go
+func (p *Point) ScaleBy(factor float64) { /* ... */ } // 名称为(*Point).ScaleBy
+```
+
+惯例: 如果`Point`的一个方法有指针接收者, 则它的所有方法都有指针接收者.
+
+只有命名的类型(`Point`)和其指针(`*Point`)是可以在接收者声明中出现的类型: 在本身是指针类型的命名类型上定义方法是错误的:
+
+``` go
+type P *int;
+func (P) f() { /* ... */ } // error
+```
+
+如果接收者`p`是`Point`变量, 但方法要求`*Point`接收者, 可以使用简写形式: `p.ScaleBy(2)`, 编译器会在变量上执行一个隐式的取地址操作`&p`; 这只适用于变量, 包括结构体字段`p.X`、数组或切片元素`perim[0]`.
+
+如果接收者`p`是`*Point`, 但方法要求`Point`接收者, 可以使用简写形式: `p.Distance(q)`, 编译器会执行一个隐式的解引用操作`*p`.
+
+例:
+
+```
+r := &Point{1,2}
+r.ScaleBy(2)          // ok
+
+p := Point{1,2}
+pptr := &p            // ok
+(&p).ScaleBy(2)
+p.ScaleBy(2)          // ok
+
+Point{1,2}.ScaleBy(2) // error: 不可寻址
+
+pptr.Disance(q)       // ok
+(*pptr).Distance(q)   // ok
+```
+
+在有效的方法调用表达式中:
+
+- 接收者实参与接收者形参的类型相同, 均为类型`T`或`*T`;
+
+``` go
+Point{1,2}.Distance(q)  // Point
+pptr.ScaleBy(2)         // *Point
+```
+
+- 接收者实参是类型`T`的变量, 接收者形参类型为`*T`;
+
+``` go
+p.ScaleBy(2)            // 隐式的 &p
+```
+
+- 接收者实参类型为`*T`, 接收者形参类型为`T`.
+
+``` go
+pptr.Distance(q)        // 隐式的 *pptr
+```
+
+`nil`可以是有效的接收者值:
+
+```
+type IntList struct {
+  Value int
+  Tail *IntList
+}
+
+func (list *IntList) Sum() int {
+  if list == nil {
+    return 0
+  }
+  return list.Value + list.Tail.Sum()
+}
+```
+
+### 使用结构体嵌入组合类型
+
+### 方法值和表达式
+
+
+## 接口
+
+内容:
+
+- 接口作为契约
+- 接口类型
+- 接口可满足性(satisfaction)
+- 接口值
+- 示例: `sort.Interface`, `http.Handler`, `error`
+- 类型断言(type assertion)
+- 类型分支(type switch)
+
+
+
+==类型断言(type assertion)==: `x.(T)`, `x`是接口类型的表达式, `T`是一个类型, 称为被断言的类型.
+类型断言检查操作数的动态类型是否与被断言的类型匹配.
+
+- `T`是具体类型
+
+类型断言检查`x`的动态类型是否与`T`一致:<br>
+(1) 一致: 类型断言的结果是`x`的动态值, 类型为`T`; 即提取了操作数的具体值.<br>
+(2) 不一致: panic.
+
+- `T`是接口类型
+
+类型断言检查`x`的动态类型是否满足`T`:<br>
+(1) 满足: 不提取动态值, 结果仍是接口值(保持了动态类型和动态值), 但结果有接口类型`T`; 即改变了表达式的类型, 使得可访问一组不同的方法, 但保持了接口值中的动态类型和动态值.<br>
+(2) 不满足: panic.
+
+注意: 如果操作数是空接口值, 类型断言失败.
+
+
+下面的实例中类型、方法、变量的签名:
+
+``` go
+// io.Writer: 接口类型
+type Writer interface {
+    Write(p []byte) (n int, err error)
+}
+type Reader interface {
+    Read(p []byte) (n int, err error)
+}
+type ReadWriter interface {
+    Reader
+    Writer
+}
+
+// os.Stdout: 具体值
+var (
+    Stdin  = NewFile(uintptr(syscall.Stdin), "/dev/stdin")
+    Stdout = NewFile(uintptr(syscall.Stdout), "/dev/stdout")
+    Stderr = NewFile(uintptr(syscall.Stderr), "/dev/stderr")
+)
+func NewFile(fd uintptr, name string) *File
+type File struct {
+}
+func (f *File) Read(b []byte) (n int, err error)
+func (f *File) Write(b []byte) (n int, err error)
+
+// bytes.Buffer: 具体类型
+type Buffer struct {
+}
+func (b *Buffer) Write(p []byte) (n int, err error)
+
+// 第7章中
+type ByteCounter int
+func (c *ByteCounter) Write(p []byte) (int, error)
+```
+
+``` go
+var w io.Writer
+w = os.Stdout
+f := w.(*os.File) // success
+c := w.(*bytes.Buffer) // panic
+```
+
+``` go
+var w io.Writer
+w = os.Stdout
+rw := w.(io.ReaderWriter) // success
+```
+
+``` go
+var w io.Writer
+w = new(ByteCounter)
+rw := w.(io.ReadWriter) // panic
+```
+
+测试是否是某个特定类型: 返回两个值, 如果操作失败, 第二个值为false, 第一个值为被断言的类型的零值.
+
+``` go
+var w io.Writer = os.Stdout
+f, ok := w.(*os.File) // success: ok, f == os.Stdout
+b, ok := w.(*bytes.Buffer) // failure: !ok, b == nil
+```
 
 ## 并发工具
 ### Goroutines, Channels
 
+内容:
+
+- goroutine
+- 通道
+- `select`多路复用(multiplexing)
+- 取消
+
 ### 共享变量的并发
+
+内容:
+
+- 竞态条件
+- 互斥: `sync.Mutex`
+- 读写互斥: `sync.RWMutex`
+- 内存同步
+- 延迟初始化: `sync.Once`
+- goroutine与线程
+
 
 ## 包和工具
 
+内容:
+
+- 导入路径
+- 包声明
+- 导入声明
+- 空导入
+- 包和命名
+- `go`工具
+
 ## 测试
+
+内容:
+
+- `go test`工具
+- `Test`函数
+- 覆盖度
+- `Benchmark`函数
+- 性能剖析
+- `Example`函数
 
 在包目录中, 以`_test.go`结尾的文件不是`go build`构建的包的一部分, 但是是`go test`构建的包的一部分.
 
@@ -745,3 +1037,19 @@ import _ "lib/math"
 - 示例: 函数名以`Eample`开始
 
 ## 反射
+
+内容:
+
+- `reflect.Type`, `reflect.Value`
+- 使用`reflect.Value`设置变量
+- 访问结构体标签
+- 展示类型的方法
+
+
+## 底层编程
+
+内容:
+
+- `unsafe`中`Sizeof`, `AlignOf`, `OffsetOf`
+- `unsafe.Pointer`
+- 使用`cgo`调用C代码
