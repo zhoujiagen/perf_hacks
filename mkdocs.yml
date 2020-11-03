@@ -20,8 +20,9 @@ nav:
       - 'C++ 11': cplusplus/CXX11-Standard.md
     - Golang:
       - 'The Go Programming Language': golang/tgpl.md
-      - 'Tools': golang/tool.md
       - 'Specification': golang/tgpls.md
+      - 'Modules': golang/go-modules.md
+      - 'Tools': golang/tool.md
     - Rust:
       - 'Notes': rust/notes.md
       - 'Tools': rust/tool.md

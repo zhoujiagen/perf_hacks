@@ -49,8 +49,6 @@ $ go install time
 
 - [The Go Blog](https://blog.golang.org/)
 - [Godoc: documenting Go code](https://blog.golang.org/godoc-documenting-go-code)
-- [Using Go Modules](https://blog.golang.org/using-go-modules)
-
 
 ### Packages
 
@@ -87,7 +85,8 @@ $ go install time
 
 - 在线编辑: [The Go Playground](https://play.golang.org/)
 - [Delve](https://github.com/go-delve/delve): Delve is a debugger for the Go programming language.
+- [Delve](https://github.com/go-delve/delve): Delve is a debugger for the Go programming language. [安装Go语言调试工具dlv](https://orchidflower.oschina.io/2017/02/15/install-golang-debugger-dlv-on-mac/).
 
 ## Tools
 
-- [go-kit/kit](https://github.com/go-kit/kit): A standard library for microservices. 
+- [go-kit/kit](https://github.com/go-kit/kit): A standard library for microservices.
