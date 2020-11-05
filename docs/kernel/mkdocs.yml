@@ -1,0 +1,49 @@
+site_name: Performance Hacks
+site_author: 'zhoujiagen@gmail.com'
+copyright: MIT
+repo_name: perf_hacks
+repo_url: https://github.com/zhoujiagen/perf_hacks
+
+nav:
+  - 'Linux架构': linux-arch.md
+  - 'Linux手册页': linux-man.md
+  - '系统调用': syscall.md
+  - 'UNIX环境高级编程': apue.md
+  - 'Linux编程接口': tlpi.md
+  - '网络':
+    - 'TCP/IP': network/network.md
+    - 'Netty': network/netty.md
+    - 'NS2': network/ns2.md
+
+
+#theme: readthedocs
+theme:
+  name: material
+extra:
+  search:
+    language: 'en'
+markdown_extensions:
+  - admonition
+  - codehilite:
+      linenums: true
+      guess_lang: False
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex # LaTeX math equations
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+  - footnotes
+
+extra_javascript:
+  - 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'

@@ -19,6 +19,7 @@ type IssueSearchResult struct {
 	Items      []*Issue
 }
 
+// Issue
 type Issue struct {
 	Number    int
 	HTMLURL   string `json:"html_url"`
@@ -29,15 +30,18 @@ type Issue struct {
 	Body      string    // Markdown格式
 }
 
+// User
 type User struct {
 	Login   string
 	HTMLURL string `json:"html_url"`
 }
 
-// 搜索Issue
+// SearchIssue
 func SearchIssue(terms []string) (*IssueSearchResult, error) {
 	q := url.QueryEscape(strings.Join(terms, " "))
-	resp, err := http.Get(IssuesURL + "?q=" + q)
+	queryUrl := IssuesURL + "?q=" + q
+	fmt.Println(queryUrl)
+	resp, err := http.Get(queryUrl)
 	if err != nil {
 		return nil, err
 	}

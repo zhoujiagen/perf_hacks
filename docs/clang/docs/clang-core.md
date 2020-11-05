@@ -4,8 +4,8 @@
 
 |时间|内容|
 |:------|:----|
-|20190305-20190314|语法和语义部分; GNU Make. 移至[GNU Make](../build-tools/make.md)|
-|20190314|准备阅读Autotools工具集文档. 移至[GNU Autotools](../build-tools/autotools.md)|
+|20190305-20190314|语法和语义部分; GNU Make. 移至`make.md`|
+|20190314|准备阅读Autotools工具集文档. 移至`autotools.md`|
 |20190319|添加字节对齐topic.|
 
 ## 资源

@@ -7,60 +7,67 @@ repo_url: https://github.com/zhoujiagen/perf_hacks
 nav:
     - Home: index.md
     - Build:
-      - Make: build-tools/make.md
-      - Autotools: build-tools/autotools.md
-      - CMake: build-tools/cmake.md
+      - Home: build-tools/docs/index.md
+      - Make: build-tools/docs/make.md
+      - Autotools: build-tools/docs/autotools.md
+      - CMake: build-tools/docs/cmake.md
     - C:
-      - 'Core': clang/clang-core.md
-      - 'Lib': clang/clib.md
-      - 'Tool': clang/tool.md
+      - Home: clang/docs/index.md
+      - 'Core': clang/docs/clang-core.md
+      - 'Lib': clang/docs/clib.md
+      - 'Tool': clang/docs/tool.md
     - 'C++':
-      - 'Q&A': cplusplus/QA.md
-      - 'Tool': cplusplus/tool.md
-      - 'C++ 11': cplusplus/CXX11-Standard.md
+      - Home: /index.md
+      - 'Q&A': cplusplus/docs/QA.md
+      - 'Tool': cplusplus/docs/tool.md
+      - 'C++ 11': cplusplus/docs/CXX11-Standard.md
     - Golang:
-      - 'The Go Programming Language': golang/tgpl.md
-      - 'Specification': golang/tgpls.md
-      - 'Modules': golang/go-modules.md
-      - 'Tools': golang/tool.md
+      - Home: golang/docs/index.md
+      - 'The Go Programming Language': golang/docs/tgpl.md
+      - 'Specification': golang/docs/tgpls.md
+      - 'Modules': golang/docs/go-modules.md
+      - 'Tools': golang/docs/tool.md
     - Rust:
-      - 'Notes': rust/notes.md
-      - 'Tools': rust/tool.md
+      - Home: rust/docs/index.md
+      - 'Notes': rust/docs/notes.md
+      - 'Tools': rust/docs/tool.md
     - 'Kernel':
-      - 'Linux架构': kernel/linux-arch.md
-      - 'Linux手册页': kernel/linux-man.md
-      - '系统调用': kernel/syscall.md
-      - 'UNIX环境高级编程': kernel/apue.md
-      - 'Linux编程接口': kernel/tlpi.md
+      - Home: kernel/docs/index.md
+      - 'Linux架构': kernel/docs/linux-arch.md
+      - 'Linux手册页': kernel/docs/linux-man.md
+      - '系统调用': kernel/docs/syscall.md
+      - 'UNIX环境高级编程': kernel/docs/apue.md
+      - 'Linux编程接口': kernel/docs/tlpi.md
       - '网络':
-        - 'TCP/IP': kernel/network/network.md
-        - 'Netty': kernel/network/netty.md
-        - 'NS2': kernel/network/ns2.md
+        - 'TCP/IP': kernel/docs/network/network.md
+        - 'Netty': kernel/docs/network/netty.md
+        - 'NS2': kernel/docs/network/ns2.md
     - 'Performance Analysis':
-      - 'Introduction': perf_analysis/perf_analysis.md
-      - 'Terminology': perf_analysis/terms.md
-      - 'Flame Graph': perf_analysis/flame-graph.md
+      - Home: perf_analysis/docs/index.md
+      - 'Introduction': perf_analysis/docs/perf_analysis.md
+      - 'Terminology': perf_analysis/docs/terms.md
+      - 'Flame Graph': perf_analysis/docs/flame-graph.md
       - 'Tracing':
-        - 'Linux Tracing Technologies': perf_analysis/tracing/linux-tracing.md
+        - 'Linux Tracing Technologies': perf_analysis/docs/tracing/linux-tracing.md
         - 'Probes':
-          - 'Tracepoint': perf_analysis/tracing/probes/tracepoint.md
-          - 'usdt': perf_analysis/tracing/probes/usdt.md
-          - 'kprobe, kretprobe': perf_analysis/tracing/probes/kprobe.md
-          - 'uprobe, uretprobe': perf_analysis/tracing/probes/uprobe.md
-          - 'software, hardware': perf_analysis/tracing/probes/software_hardware.md
-          - 'profile, interval': perf_analysis/tracing/probes/profile_interval.md
+          - 'Tracepoint': perf_analysis/docs/tracing/probes/tracepoint.md
+          - 'usdt': perf_analysis/docs/tracing/probes/usdt.md
+          - 'kprobe, kretprobe': perf_analysis/docs/tracing/probes/kprobe.md
+          - 'uprobe, uretprobe': perf_analysis/docs/tracing/probes/uprobe.md
+          - 'software, hardware': perf_analysis/docs/tracing/probes/software_hardware.md
+          - 'profile, interval': perf_analysis/docs/tracing/probes/profile_interval.md
       - 'Tools':
-        - 'perf': perf_analysis/tools/perf.md
-        - 'strace': perf_analysis/tools/strace.md
+        - 'perf': perf_analysis/docs/tools/perf.md
+        - 'strace': perf_analysis/docs/tools/strace.md
         - 'BPF':
-          - 'BCC': perf_analysis/tools/bpf/bcc.md
-          - 'bpftrace': perf_analysis/tools/bpf/bpftrace.md
+          - 'BCC': perf_analysis/docs/tools/bpf/bcc.md
+          - 'bpftrace': perf_analysis/docs/tools/bpf/bpftrace.md
           - 'Book':
-            - 'Index': perf_analysis/tools/bpf/bpf-book.md
-            - 'PART 1: 技术': perf_analysis/tools/bpf/bpf-book-part1.md
-            - 'PART 2: 使用BPF工具': perf_analysis/tools/bpf/bpf-book-part2.md
-            - 'PART 3: 高级主题': perf_analysis/tools/bpf/bpf-book-part3.md
-            - 'PART 4: 附录': perf_analysis/tools/bpf/bpf-book-part4.md
+            - 'Index': perf_analysis/docs/tools/bpf/bpf-book.md
+            - 'PART 1: 技术': perf_analysis/docs/tools/bpf/bpf-book-part1.md
+            - 'PART 2: 使用BPF工具': perf_analysis/docs/tools/bpf/bpf-book-part2.md
+            - 'PART 3: 高级主题': perf_analysis/docs/tools/bpf/bpf-book-part3.md
+            - 'PART 4: 附录': perf_analysis/docs/tools/bpf/bpf-book-part4.md
 
 #theme: readthedocs
 theme:

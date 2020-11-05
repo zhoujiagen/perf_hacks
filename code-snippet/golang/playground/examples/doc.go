@@ -1,4 +1,2 @@
-/*
-示例: 应用.
-*/
+// Package examples contain example code snippets
 package examples

@@ -31,5 +31,5 @@ func TestJSON(t *testing.T) {
 	if err := json.Unmarshal(data, &titles); err != nil {
 		t.Errorf("JSON Unmarshal failed: %s", err)
 	}
-	t.Log(titles) // [{mivie1} {mivie2}]
+	t.Log(titles)
 }
