@@ -10,7 +10,7 @@
 |#|步骤|说明|描述|
 |-|---|:---|:---|
 |1|`uptime`| 查看平均负载. |Tell how long the system has been running |
-|2| ```dmesg | tail``` | 查看最后几条系统消息. |print or control the kernel ring buffer|
+|2| `dmesg | tail` | 查看最后几条系统消息. |print or control the kernel ring buffer|
 |3|`vmstat 1`| 每秒输出虚拟内存统计信息. |Report virtual memory statistics|
 |4|`mpstat -P ALL 1`| 查看每个CPU的统计时间. |Report processors related statistics |
 |5|`pidstat 1`| 查看每个进程的CPU使用情况. |Report statistics for Linux tasks|

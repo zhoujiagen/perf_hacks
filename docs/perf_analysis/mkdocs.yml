@@ -5,6 +5,7 @@ repo_name: perf_hacks
 repo_url: https://github.com/zhoujiagen/perf_hacks
 
 nav:
+  - 'Home': index.md
   - 'Introduction': perf_analysis.md
   - 'Terminology': terms.md
   - 'Flame Graph': flame-graph.md
@@ -17,6 +18,9 @@ nav:
       - 'uprobe, uretprobe': tracing/probes/uprobe.md
       - 'software, hardware': tracing/probes/software_hardware.md
       - 'profile, interval': tracing/probes/profile_interval.md
+    - 'Distributed Tracing':
+      - 'OpenTracing': distributed_tracing/opentracing.md
+      - 'Jaeger': distributed_tracing/jaeger.md
   - 'Tools':
     - 'perf': tools/perf.md
     - 'strace': tools/strace.md
@@ -58,6 +62,12 @@ markdown_extensions:
       custom_checkbox: true
   - pymdownx.tilde
   - footnotes
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_div_format
 
 extra_javascript:
   - 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'
+  - https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js

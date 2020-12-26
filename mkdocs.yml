@@ -43,7 +43,6 @@ nav:
         - 'Netty': kernel/docs/network/netty.md
         - 'NS2': kernel/docs/network/ns2.md
     - 'Performance Analysis':
-      - Home: perf_analysis/docs/index.md
       - 'Introduction': perf_analysis/docs/perf_analysis.md
       - 'Terminology': perf_analysis/docs/terms.md
       - 'Flame Graph': perf_analysis/docs/flame-graph.md
@@ -56,6 +55,9 @@ nav:
           - 'uprobe, uretprobe': perf_analysis/docs/tracing/probes/uprobe.md
           - 'software, hardware': perf_analysis/docs/tracing/probes/software_hardware.md
           - 'profile, interval': perf_analysis/docs/tracing/probes/profile_interval.md
+        - 'Distributed Tracing':
+          - 'OpenTracing': perf_analysis/docs/distributed_tracing/opentracing.md
+          - 'Jaeger': perf_analysis/docs/distributed_tracing/jaeger.md
       - 'Tools':
         - 'perf': perf_analysis/docs/tools/perf.md
         - 'strace': perf_analysis/docs/tools/strace.md
