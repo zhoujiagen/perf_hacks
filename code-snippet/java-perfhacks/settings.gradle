@@ -1,3 +1,5 @@
 rootProject.name = 'java-perfhacks'
 
 include 'jaeger'
+include 'concurrency'
+
