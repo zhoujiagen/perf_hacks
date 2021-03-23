@@ -19,7 +19,7 @@ nav:
       - 'software, hardware': tracing/probes/software_hardware.md
       - 'profile, interval': tracing/probes/profile_interval.md
     - 'Distributed Tracing':
-      - 'Concepts': distributed_tracing/concepts.md
+      - 'Concepts': distributed_tracing/distributed-tracing-concepts.md
       - 'OpenTracing': distributed_tracing/opentracing.md
       - 'Jaeger': distributed_tracing/jaeger.md
   - 'Tools':
