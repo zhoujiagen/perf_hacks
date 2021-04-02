@@ -21,7 +21,7 @@
 
 <!-- 描述书籍的行文结构, 核心主题和子主题的内容结构和关系. -->
 
-### Introduction
+#### 1. Introduction
 
 <div>
 {% dot introduction.svg
@@ -131,7 +131,10 @@ digraph principles {
 %}
 </div>
 
-#### Concurrent Objects
+#### 2. Mutual Exclusion
+
+#### 3. Concurrent Objects
+
 
 **Method call** the interval that starts with an invocation event and ends with a response event.
 
@@ -157,6 +160,9 @@ An object is **quiescent** if it has no pending method calls.
 
 **Linearizability**: **Principle 3.5.1**.
 
+#### 4. Foundations of Shared Memory
+#### 5. The Relative Power of Primitive Synchronization Operations
+#### 6. Universality of Consensus
 
 ### Practice
 
@@ -173,12 +179,14 @@ digraph practice1 {
 
     c7 [label="Spin Locks and Contention"]
     c8 [label="Monitors"]
-    c9 [label="Linked Lists"]
     
-    p2 -> {c7 c8 c9};
+    p2 -> {c7 c8};
 }
 %}
 </div>
+
+#### 7. Spin Locks and Contention
+#### 8. Monitors and Blocking Synchronization
 
 <div>
 {% dot practice2.svg
@@ -191,6 +199,7 @@ digraph practice2 {
     
     p2 [label="Practice"]
     
+    c9 [label="Linked Lists"]
     c10 [label="Concurrent Queues"]
     c11 [label="Concurrent Stacks"]
     c12 [label="Counting, Sorting and Distributed Coordination"]
@@ -198,10 +207,18 @@ digraph practice2 {
     c14 [label="Skiplists"]
     c15 [label="Priority Queues"]
 
-    p2 -> {c10 c11 c12 c13 c14 c15};
+    p2 -> {c9 c10 c11 c12 c13 c14 c15};
 }
 %}
 </div>
+
+#### 9. Linked Lists
+#### 10. Concurrent Queues and the ABA Problem
+#### 11. Concurrent Stacks and Elimination
+#### 12. Counting, Sorting, and Distributed Coordination
+#### 13. Concurrent Hashing and Natural Parallelism
+#### 14. Skiplists and Balanced Search
+#### 15. Priority Queues
 
 <div>
 {% dot practice3.svg
@@ -222,6 +239,10 @@ digraph practice3 {
 }
 %}
 </div>
+
+#### 16. Futures, Scheduling, and Work Distribution
+#### 17. Barriers
+#### 18. Transactional Memory
 
 ## 总结
 
