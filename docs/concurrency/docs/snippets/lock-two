@@ -1,0 +1,16 @@
+!!! info "Lemma 2.3.2"
+    The LockTwo algorithm satisfies mutual exlusion.
+
+``` java
+class LockTwo implements Lock {
+    private int victim;             // victim
+
+    public void lock() {
+        int me = ThreadID.get();
+        victim = me;                // let the other go first
+        while (victim == me) {}     // wait
+    }
+
+    public void unlock() {}
+}
+```

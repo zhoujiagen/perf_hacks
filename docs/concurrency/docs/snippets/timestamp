@@ -1,0 +1,19 @@
+##### Bounded Timestamps
+
+In the `Bakery` lock, labels act as timestamps: they establish an order among the contending threads.
+
+``` java
+public interface Timestamp {
+    boolean compare(Timestamp);
+}
+
+public interface TimestamSystem {
+    public Timestamp[] scan();                      // snapshot
+    public void label(Timestamp timestamp, int i);  // assign timestamp to thread i
+}
+```
+
+**Precedence graph**: think of timestamps as nodes of a directed graph. <br/>
+Time timestamp order is irreflexive and antisymmetric.
+
+TODO(zhoujiagen) restart here!!!

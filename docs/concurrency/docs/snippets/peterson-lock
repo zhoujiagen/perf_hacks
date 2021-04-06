@@ -1,0 +1,28 @@
+!!! info "Lemma 2.3.3"
+    The Peterson lock algorithm satisfies mutual exclusion.
+
+!!! info "Lemma 2.3.4"
+    The Peterson lock algorithm is starvation-free.
+
+!!! info "Corollary 2.3.1"
+    The Peterson lock algorithm is deadlock-free.
+
+``` java
+class Peterson implements Lock {
+    private boolean[] flag = new boolean[2];    // thread interestness
+    private int victim;
+
+    public void lock() {
+        int me = ThreadID.get();
+        int other = 1 - me;
+        flag[me] = true;                        // I am interested
+        victim = me;                            // you go first
+        while (flag[other] && victim == me) {}  // wait
+    }
+
+    public void unlock() {
+        int me = ThreadID.get();
+        flag[me] = false;                       // I am not interested
+    }
+}
+```

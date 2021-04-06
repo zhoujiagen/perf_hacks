@@ -1,0 +1,42 @@
+Lamport's Bakery Algorithm
+
+**lexicographical ordering <<** <br/>
+(label[i], i) << (label[j], j), if and only if
+label[i] < label[j] or (label[i] = label[j] and i < j).
+
+!!! info "Lemma 2.6.1"
+    The Bakery lock algorithm is deadlock-free.
+
+!!! info "Lemma 2.6.2"
+    The Bakery lock algorithm is first-come-first-served.
+
+!!! info "Lemma 2.6.3"
+    The Bakery algorithm satisfies mutual exclusion.
+
+``` java
+class Bakery implements Lock {
+    private boolean[] flag;             // flag indicates whether thread wants to enter CS
+    private Label[] label;              // integer indicates thread's relative order when entering CS
+
+    public Bakery(int n) {
+        flag = new boolean[n];
+        label = new Label[n];
+        for (int i = 0; i < n; i++) {
+            flag[i] = false;
+            label[i] = 0;
+        }
+    }
+
+    public void lock() {
+        int me = ThreadID.get();
+        flag[me] = true;
+        label[me] = max(label[0], ..., label[n-1]) + 1;
+        while ((∃ k != me) (flag[k] && (label[k], k) << (label[me], me))) {}
+    }
+
+    public void unlock() {
+        flag[ThreadID.get()] = false;
+    }
+
+}
+```

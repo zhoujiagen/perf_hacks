@@ -1,0 +1,20 @@
+!!! info "Lemma 2.3.1"
+    The LockOne algorithm satisfies mutual exlusion.
+
+``` java
+class LockOne implements Lock {
+    private boolean[] flag = new boolean[2];    // flag: interestness
+
+    public void lock() {
+        int me = ThreadID.get();
+        int other = 1 - me;
+        flag[me] = true;
+        while (flag[other]) {}                  // wait
+    }
+
+    public void unlock() {
+        int me = ThreadID.get();
+        flag[me] = false;
+    }
+}
+```

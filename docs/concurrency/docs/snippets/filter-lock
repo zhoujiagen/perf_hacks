@@ -1,0 +1,50 @@
+The Filter Lock
+
+The Filter lock creates n-1 waiting rooms, called **levels**, that a thread must traverse before acquiring the lock.
+
+Levels satisfies thess properties:
+
+- at least one thread trying to enter level $l$ succeed;
+- if more than one thread is trying to enter level $l$, then at least one is blocked(continues to wait at that level).
+
+!!! info "Lemma 2.4.1"
+    for j between 0 and n-1, there are at most n-j threads at level j.
+
+!!! info "Corollary 2.4.1"
+    The Filter lock algorithm satisfies mutual exclusion.
+
+!!! info "Lemma 2.4.2"
+    The Filter lock algorithm is starvation-free.
+
+!!! info "Corollary 2.4.2"
+    The Filter lock algorithm is deadlock-free.
+
+``` java
+class Filter implements Lock {
+    private int[] level;
+    private int[] victim;                   // use 1..n-1
+
+    public Filter(int n) {
+        level = new int[n];
+        victim = new int[n];
+        for (int i = 0; i < n; i++) {
+            level[i] = 0;
+        }
+    }
+
+    public void lock() {
+        int me = ThreadID.get();
+        for (int i= 1; i < n; i++) {        // attemp level i: 1..n-1
+            level[me] = i;
+            victim[i] = me;                 // victim in level i
+            // spin while conflicts exist
+            while (( ∃ k != me) (level[k] >= i && victim[i] == me)) {}
+        }
+    }
+
+    public void unlock() {
+        int me = ThreadID.get();
+        level[me] = 0; 
+    }
+}
+```

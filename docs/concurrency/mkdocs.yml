@@ -34,11 +34,16 @@ markdown_extensions:
   - pymdownx.mark
   - pymdownx.smartsymbols
   - pymdownx.superfences
+  - pymdownx.highlight:
+      linenums: true
+  - pymdownx.snippets:
+      base_path: docs/snippets
+      check_paths: true
   - pymdownx.tasklist:
       custom_checkbox: true
   - pymdownx.tilde
   - footnotes
   - markdown_inline_graphviz
-
+  
 extra_javascript:
   - 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'
