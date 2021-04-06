@@ -44,7 +44,8 @@ nav:
         - 'NS2': kernel/docs/network/ns2.md
     - 'Concurrency':
       - Home: concurrency/docs/index.md
-      - 'The Art of Multiprocessor Programming': concurrency/docs/tamp.md
+      - 'Concepts of TAMP': concurrency/docs/tamp-concepts.md
+      - 'TAMP': concurrency/docs/tamp.md
     - 'Performance Analysis':
       - 'Introduction': perf_analysis/docs/perf_analysis.md
       - 'Terminology': perf_analysis/docs/terms.md

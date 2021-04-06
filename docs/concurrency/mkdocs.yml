@@ -6,7 +6,8 @@ repo_url: https://github.com/zhoujiagen/perf_hacks
 
 nav:
   - Home: index.md
-  - 'The Art of Multiprocessor Programming': tamp.md
+  - 'Concepts of TAMP': tamp-concepts.md
+  - 'TAMP': tamp.md
 
 
 #theme: readthedocs
