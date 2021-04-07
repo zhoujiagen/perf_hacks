@@ -1,6 +1,6 @@
 The Filter Lock
 
-The Filter lock creates n-1 waiting rooms, called **levels**, that a thread must traverse before acquiring the lock.
+The Filter lock creates $n-1$ waiting rooms, called **levels**, that a thread must traverse before acquiring the lock.
 
 Levels satisfies thess properties:
 
@@ -8,7 +8,7 @@ Levels satisfies thess properties:
 - if more than one thread is trying to enter level $l$, then at least one is blocked(continues to wait at that level).
 
 !!! info "Lemma 2.4.1"
-    for j between 0 and n-1, there are at most n-j threads at level j.
+    for j between 0 and $n-1$, there are at most $n-j$ threads at level $j$.
 
 !!! info "Corollary 2.4.1"
     The Filter lock algorithm satisfies mutual exclusion.

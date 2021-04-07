@@ -19,15 +19,15 @@ Time timestamp order is irreflexive and antisymmetric.
 ![](../images/unbounded-timestamp-system.png)
 
 
-Let G be a precedence graph, and A and B subgraphs of G. We say A **dominates** B in G if every
-node of A has edges directed to every node of B. <br/>
+Let $G$ be a precedence graph, and $A$ and $B$ subgraphs of $G$. We say $A$ **dominates** $B$ in $G$ if every
+node of $A$ has edges directed to every node of $B$. <br/>
 Let **graph multiplication** $G \circ H$ be the following noncommutative composition operator for graphs: <br/>
-Replace every node v of G by a copy of H (denoted $H_{v}$), and let $H_{v}$ dominate $H_{u}$ in $G \circ H$ if v dominates u in G.
+Replace every node $v$ of $G$ by a copy of $H$ (denoted $H_{v}$), and let $H_{v}$ dominate $H_{u}$ in $G \circ H$ if $v$ dominates $u$ in $G$.
 
 $T^{k}$:
 
 - $T^{1}$ is a single node;
 - $T^{2}$ is the three-node graph below;
-- for k > 2, $T^{k} = T^{2} \circ T^{k-1}$
+- for $k > 2$, $T^{k} = T^{2} \circ T^{k-1}$
 
 ![](../images/bounded-timestamp-system.png)

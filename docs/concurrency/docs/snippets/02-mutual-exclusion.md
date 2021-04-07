@@ -4,14 +4,14 @@ Reasoning about concurrent computation if mostly reasoning about **time**. Threa
 
 A thread is a **state matchine**, and its state transitions are called **events**.
 
-Events are **instantaneous**: they occur at a signle instant of time. Events are never simultaneous: distinct events occure at distinct times. We denote the j-th occurrence of an event ai by $a_{i}^{j}$.
+Events are **instantaneous**: they occur at a single instant of time. Events are never simultaneous: distinct events occure at distinct times. We denote the $j$-th occurrence of an event ai by $a_{i}^{j}$.
 
-One event a **precedes** another event b, written a -> b, if a occures at an earlier time. The precedence relation -> is a total order on events.
+One event $a$ **precedes** another event $b$, written $a \rightarrow b$, if $a$ occures at an earlier time. The precedence relation $\rightarrow$ is a total order on events.
 
-Let a0 and a1 be events such that a0 -> a1. An **interval** (a0, a1) is the duration between a0 and a1.
+Let $a_{0}$ and $a_{1}$ be events such that $a_{0} \rightarrow a_{1}$. An **interval** $(a_{0}, a_{1})$ is the duration between $a_{0}$ and $a_{1}$.
 
-Interval $I_{A}$ = (a0, a1) **precedes** $I_{B}$ = (b0, b1), written $I_{A} \rightarrow I_{B}$ if a1 -> b0.<br/>
-Intervals that are unrelated by -> are said to be **concurrent**. We denote the j-th execution of interval $I_{A}$ by $_{A}^{j}$.
+Interval $I_{A} = (a_{0}, a_{1})$ **precedes** $I_{B} = (b_{0}, b_{1})$, written $I_{A} \rightarrow I_{B}$ if $a_{1} \rightarrow b_{0}$.<br/>
+Intervals that are unrelated by $\rightarrow$ are said to be **concurrent**. We denote the $j$-th execution of interval $I_{A}$ by $_{A}^{j}$.
 
 
 **Critical section**: a block of code that can be executed by only one thread at a time.
@@ -27,10 +27,10 @@ A thread is **well formed** if:
 - the thread calls the `unlock()` method when it leaves the critical section.
 
 **Mutal Exclusion** Critical section of different threads do not overlap. <br/>
-For thread A and B, and integer j and k, either $CS_{A}^{k} \rightarrow CS_{B}^{j}$ or $CS_{B}^{j} \rightarrow CS_{A}^{k}$.
+For thread $A$ and $B$, and integer $j$ and $k$, either $CS_{A}^{k} \rightarrow CS_{B}^{j}$ or $CS_{B}^{j} \rightarrow CS_{A}^{k}$.
 
 **Freedom from Deadlock** If some thread attempts to acquire the lock, them some thread will succeed in acquiring the lock. <br/>
-If thread A calls `lock()` but never acquires the lock, then other threads must be completing an infinite number of critial sections.<br/>
+If thread $A$ calls `lock()` but never acquires the lock, then other threads must be completing an infinite number of critial sections.<br/>
 It implies that the system never freezes.
 
 **Freedom from Starvation/Lockout Freedom** Every thread that attempts to acquire the lock eventually succeeds.<br/>
@@ -81,8 +81,8 @@ Split the `lock()` method in to two sections of code:
 Fairness
 
 !!! info "Definition 2.5.1"
-    A lock is **first-come-first-serverd** if, whenever, thread A finishes its doorway before thread B starts its doorway, then A cannot be overtaken by B:<br/>
-    If $D_{A}^{j} \rightarrow D_{B}^{k}$, then $CS_{A}^{j} \rightarrow CS_{B}^{k}$. for threads A and B and integers j and k.
+    A lock is **first-come-first-served** if, whenever, thread $A$ finishes its doorway before thread $B$ starts its doorway, then $A$ cannot be overtaken by $B$:<br/>
+    If $D_{A}^{j} \rightarrow D_{B}^{k}$, then $CS_{A}^{j} \rightarrow CS_{B}^{k}$. for threads $A$ and $B$ and integers $j$ and $k$.
 
 
 --8<--
@@ -92,4 +92,23 @@ bakery-lock
 --8<--
 timestamp
 --8<--
+
+##### Lower Bounds on the Number of Locations
+
+An **object's state** is the state of its fields. <br/>
+A **thread's local state** is the state of its program counters and local variables.<br/>
+A **global state** or **system state** is the state of all objects, plus the local states of the threads.
+
+!!! info "Definition 2.8.1"
+    A `Lock` object state s is **inconsistent** in any global state where some thread is in the critical section, but the lock state is compatible with a global state in which no thread is in the critical section or is trying to enter the critical section.
+
+!!! info "Lemma 2.8.1"
+    No deadlock-free Lock algorithm can enter an inconsistent state.
+
+!!! info "Definition 2.8.2"
+    A **covering state** for a `Lock` object is one in which there is at least one thread about to write to each shared location, but the `Lock` object's locations "look" like the critical section is empty.<br/>
+    In this state, we say that each threads covers the location it is about to write.
+
+!!! info "Theorem 2.8.1"
+    Any `Lock` algorithm that, by reading and writing memory, solves deadlock-free mutual exclusion for **three** threads, must use at least **three** distinct memory locations.
 
