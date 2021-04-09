@@ -1,3 +1,3 @@
 # Concurrency
 
-- [The Art of Multiprocessor Programming](tamp.md)
+- [The Art of Multiprocessor Programming](tamp/index.md)

@@ -1,4 +1,4 @@
-#### 2. Mutual Exclusion
+# 2. Mutual Exclusion
 
 Reasoning about concurrent computation if mostly reasoning about **time**. Threads share a common time, though not necessarily a common clock.
 
@@ -17,7 +17,7 @@ Intervals that are unrelated by $\rightarrow$ are said to be **concurrent**. We 
 **Critical section**: a block of code that can be executed by only one thread at a time.
 
 --8<--
-lock
+tamp/snippets/02/lock
 --8<--
 
 A thread is **well formed** if:
@@ -38,7 +38,7 @@ Every call to `lock()` eventually returns.
 
 Starvation freedom implies deadlock freedom.
 
-##### 2-Thread Solutions
+## 2-Thread Solutions
 
 Conventions:
 
@@ -48,7 +48,7 @@ Conventions:
 LockOne
 
 --8<--
-lock-one
+tamp/snippets/02/lock-one
 --8<--
 
 LockOne deadlocks if thread executions are interleaved.
@@ -56,7 +56,7 @@ LockOne deadlocks if thread executions are interleaved.
 LockTwo
 
 --8<--
-lock-two
+tamp/snippets/02/lock-two
 --8<--
 
 LockTwo deadlocks if one thread runs completely ahead of the other.
@@ -64,13 +64,13 @@ LockTwo deadlocks if one thread runs completely ahead of the other.
 The Peterson Lock
 
 --8<--
-peterson-lock
+tamp/snippets/02/peterson-lock
 --8<--
 
-##### n-thread Solutions
+## n-thread Solutions
 
 --8<--
-filter-lock
+tamp/snippets/02/filter-lock
 --8<--
 
 Split the `lock()` method in to two sections of code:
@@ -86,14 +86,14 @@ Fairness
 
 
 --8<--
-bakery-lock
+tamp/snippets/02/bakery-lock
 --8<--
 
 --8<--
-timestamp
+tamp/snippets/02/timestamp
 --8<--
 
-##### Lower Bounds on the Number of Locations
+## Lower Bounds on the Number of Locations
 
 An **object's state** is the state of its fields. <br/>
 A **thread's local state** is the state of its program counters and local variables.<br/>

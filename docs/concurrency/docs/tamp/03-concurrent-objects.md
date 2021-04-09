@@ -1,4 +1,4 @@
-#### 3. Concurrent Objects
+# 3. Concurrent Objects
 
 **Method call** the interval that starts with an invocation event and ends with a response event.
 
@@ -24,12 +24,12 @@ An object is **quiescent** if it has no pending method calls.
 
 **Linearizability**: **Principle 3.5.1**.
 
-##### Formal Definitions
+## Formal Definitions
 
 An execution of a concurrent system id modeled by a **history**, a finite sequence of method invocation and response events:
 
-- method invocation $<x.m(a*) A>$: object $x$, method name $m$, a sequence of arguments $a*$, thread $A$;
-- method response $<x:t(r*) A>$: $t$ is $Ok$ or an exception name, a sequence of result values $r*$.
+- method invocation $\langle x.m(a*) A \rangle$: object $x$, method name $m$, a sequence of arguments $a*$, thread $A$;
+- method response $\langle x:t(r*) A \rangle$: $t$ is $Ok$ or an exception name, a sequence of result values $r*$.
 
 A **subhistory** of a history $H$ is a subsequnce of the events of $H$.
 
@@ -85,10 +85,10 @@ Linearizability is **compositional**:
 Linearizablility is a **nonblocking** property:
 
 !!! info "Theorem 3.6.2"
-    Let $inv(m)$ be an invocation of a total method. If $< x \; inv \;  P >$ is a pending invocation in a linearizable history $H$, then there exists a response $<x \; res \; P>$ such that $H . <x \; res \; P>$ is linearizable.
+    Let $inv(m)$ be an invocation of a total method. If $\langle x \; inv \;  P \rangle$ is a pending invocation in a linearizable history $H$, then there exists a response $\langle x \; res \; P \rangle$ such that $H . \langle x \; res \; P \rangle$ is linearizable.
 
 
-##### Progress Conditions
+## Progress Conditions
 
 A method is **wait-free** if it guarantees that every call finishes its execution in a finite number of steps. <br/>
 It is **bounded wait-free** if there is a bound on the number of steps a method call can take. <br/>
@@ -96,7 +96,7 @@ A wait-free method whose perfomance does not depend on the number of active thre
 
 A method is **lock-free** if it guarantees that infinitely often some method call finishes in a finite number of steps.
 
-###### Dependent Progress Conditions
+### Dependent Progress Conditions
 
 **Dependent progress conditions**: progress occurs only if the underlying platform(the operating system) provides certain guarantees.
 
