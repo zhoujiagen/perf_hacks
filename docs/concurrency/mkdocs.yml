@@ -6,6 +6,7 @@ repo_url: https://github.com/zhoujiagen/perf_hacks
 
 nav:
   - Home: index.md
+  - 'Java Concurrency': java-concurrency.md
   - 'TAMP': 
     - 'Home': tamp/index.md
     - '1. Introduction': tamp/01-introduction.md

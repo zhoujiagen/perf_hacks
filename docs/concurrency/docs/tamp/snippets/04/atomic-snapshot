@@ -1,0 +1,166 @@
+### Obstruction-Free Snapshot
+
+A **collect** is the non atomic act of copying the register values one-by-one into an array.
+
+If we perform two collects one after the other, and both collects read the same set of timestamps, 
+then there was an interval during which no thread updated its register, 
+so the result of the collect is a snapshot of the system state immediately after the end of the first collect.
+
+We call such a pair of collects a **clean double collect**.
+
+``` java
+public class ObstructionFreeSnapshot<T> implements Snapshot<T> {
+    private AtomicMRSWRegister<StampedValue<T>>[] a_table;
+
+    public ObstructionFreeSnapshot(int capacity, T init) {
+        a_table = (AtomicMRSWRegister<StampedValue<T>>[]) 
+            new AtomicMRSWRegister[capacity];
+        for (int i = 0; i < capacity; i++) {
+            a_table[i].write(new StampedValue<T>(init));
+        }
+    }
+
+    public void update(T v) {
+        int me = ThreadID.get();
+        StampedValue<T> oldValue = a_table[me].read();
+        StampedValue<T> newValue = 
+            new StampedValue<T>(oldValue.stamp + 1, v);
+        a_table[me].write(newValue);
+    }
+
+    private StampedValue<T>[] collect() {
+        StampedValue<T>[] copy = (StampedValue<T>[]) 
+            new StampedValue[a_table.length];
+        for (int i = 0; i < a_table.length; i++) {
+            copy[i] = a_table[i].read();
+        }
+        return copy;
+    }
+
+    public T[] scan() {
+        StampedValue<T>[] oldCopy, newCopy;
+        oldCopy = collect();
+        collect: while (true) {
+            newCopy = collect();
+            if (!Arrays.equals(oldCopy, newCopy)) {
+                oldCopy = newCopy;
+                continue collect;
+            }
+            // clean double collect
+            T[] result = (T[]) new Object[a_table.length];
+            for (int i = 0; i < a_table.length; i++) {
+                result[i] = newCopy[i].value;
+            }
+            return result;
+        }
+    }
+}
+```
+
+### Wait-Free Snapshot
+
+To make `scan()` method wait-free, each `update()` call **helps** a `scan()` it may interfere with,
+by taking a snapshot before modifying its register.
+
+We must make sure the snapshot taken from the helping update is one that can be linearized with the `scan()` call's execution interval.
+
+We call a thread **moves** if it completes an `update()`.
+
+If a scanning thread $A$ sees a thread $B$ **moved twice while it is performing repeated collects**,
+then $B$ executed a complete `update()` call within the interval of $A$'s `scan()`, 
+so it is correct for $A$ to use $B$'s snapshot.
+
+``` java
+public class StampedSnap<T> {
+    public long stamp;
+    public T value;
+    public T[] snap;    // helping snapshot
+
+    public StampedSnap(T value) {
+        stamp = 0;
+        this.value = value;
+        snap = null;
+    }
+
+    public StampedSnap(long stamp, T value, T[] snap) {
+        this.stamp = stamp;
+        this.value = value;
+        this.snap = snap;
+    }
+}
+```
+
+!!! info "Lemma 4.3.1"
+    If a scanning thread makes a clean double collect, then the values it returns were the values that existed in the registers in some state of the executions.
+
+!!! info "Lemma 4.3.2"
+    If a scanning Thread $A$ observes changes in another thread $B$'s label during two different double collects, 
+    then the values of $B$'s register read during the last collect was written by an `update()` call
+    that began after the first of the four collects started.     
+
+!!! info "Lemma 4.3.3"
+    The values returned by a `scan()` were in the registers at some state between the call's invocation and response.
+
+!!! info "Lemma 4.3.4"
+    Every `scan()` or `update()` returns after at most $O(n^{2})$ reads or writes.
+
+!!! info "Theorem 4.3.1"
+    This construction prodives a wait-free snapshot implementation.
+
+``` java
+public class WaitFreeSnapshot<T> implements Snapshot<T> {
+    private AtomicMRSWRegister<StampedSnap<T>>[] a_table;
+
+    public ObstructionFreeSnapshot(int capacity, T init) {
+        a_table = (AtomicMRSWRegister<StampedSnap<T>>[]) 
+            new AtomicMRSWRegister[capacity];
+        for (int i = 0; i < capacity; i++) {
+            a_table[i].write(new StampedValue<T>(init));
+        }
+    }
+
+    public void update(T v) {
+        int me = ThreadID.get();
+        T[] snap = scan();      // helping
+        StampedSnap<T> oldValue = a_table[me].read();
+        StampedSnap<T> newValue = 
+            new StampedSnap<T>(oldValue.stamp + 1, v, snap);
+        a_table[me].write(newValue);
+    }
+
+    private StampedSnap<T>[] collect() {
+        StampedSnap<T>[] copy = (StampedSnap<T>[]) 
+            new StampedSnap[a_table.length];
+        for (int i = 0; i < a_table.length; i++) {
+            copy[i] = a_table[i].read();
+        }
+        return copy;
+    }
+
+    public T[] scan() {
+        StampedSnap<T>[] oldCopy, newCopy;
+        boolean[] moved = new boolean[a_table.length];
+        oldCopy = collect();
+        collect: while (true) {
+            newCopy = collect();
+            for (int i = 0; i < a_table.length; i++) {
+                if (oldCopy[i].stamp != newCopy[i].stamp) {
+                    if (moved[i]) {
+                        return newCopy[i].snap; // use helper's snapshot
+                    } else {
+                        moved[i] = true;
+                        oldCopy = newCopy;
+                        continue collect;
+                    }
+                }
+            }
+            // no moves
+            T[] result = (T[]) new Object[a_table.length];
+            for (int i = 0; i < a_table.length; i++) {
+                result[i] = newCopy[i].value;
+            }
+            return result;
+        }
+    }
+}
+```

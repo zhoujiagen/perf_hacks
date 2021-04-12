@@ -1,0 +1,240 @@
+Convention:
+
+``` java
+class SafeMRSWBooleanRegister implements Register<Boolean> { ... }
+```
+
+
+### Safe SRSW => Safe MRSW
+
+!!! info "Lemma 4.2.1"
+    This construction is a safe MRSW register.
+
+``` java
+public class SafeMRSWBooleanRegister implements Register<Boolean> {
+    private SafeSWSRBooleanRegister[] s_table;
+
+    public SafeMRSWBooleanRegister(int capacity) {
+        s_table = new SafeSWSRBooleanRegister[capacity];
+    }
+
+    public Boolean read() {
+        return s_table[ThreadID.get()].read();
+    }
+
+    public void write(Boolean v) {
+        for (int i = 0; i < s_table.length; i++) { // write all
+            s_table[i].write(v);
+        }
+    }
+}
+```
+
+### Safe Boolean MRSW => Regular Boolean MRSW
+
+!!! info "Lemma 4.2.2"
+    This construction is a regular Boolean register.
+
+``` java
+public class RegularMRSWBooleanRegiser implements Register<Boolean> {
+    private ThreadLocal<Boolean> last;
+    private SafeMRSWBooleanRegister s_value;
+
+    public RegularMRSWBooleanRegiser() {
+        last = new ThreadLocal<Boolean>() {
+            public Boolean initialValue() { return false; }
+        };
+    }
+
+    public Boolean read() {
+        return s_value.read();
+    }
+
+    public void write(Boolean v) {
+        if (v != last.get()) {
+            last.set(v);
+            s_value.write(v);
+        }
+    }
+}
+```
+
+### Regular Boolean MRSW => Regular M-Valued MRSW
+
+!!! info "Leamma 4.2.3"
+    The `read()` call in the construction always returns a value corresponding to a bit in $0..M-1$ set by some `write()` call.
+
+!!! info "Lemma 4.2.4"
+    This construction is a regular M-valued MRSW register.
+
+``` java
+public class RegularMRSWRegister implements Register<Byte> {
+    private static int RANGE = Byte.MAX_VALUE - Byte.MIN_VALUE + 1;
+    private RegularMRSWBooleanRegister[] r_bit = new RegularMRSWBooleanRegister[RANGE];
+
+    public Byte read() {
+        for (int i = 0; i < RANGE; i++) {   // first true bit
+            if (r_bit[i].read()) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public void write(Byte v) {
+        r_bit[v].write(true);
+        for (int i = v-1; i >= 0; i--) {    // set aheading to false
+            r_bit[i].write(false);
+        }
+    }
+}
+```
+
+### Regular SRSW => Atomic SRSW
+
+Value with a timestamp:
+
+``` java
+public class StampedValue<T> {
+    public long stamp;
+    public T value;
+
+    public static StampedValue MIN_VALUE = new StampedValue(null);
+
+    public StampedValue(T init) {
+        stamp = 0;
+        value = init;
+    }
+
+    public StampedValue(long stamp, T value) {
+        this.stamp = stamp;
+        this.value = value;
+    }
+
+    public static StampedValue max(StampedValue x, StampedValue y) {
+        if (x.stamp > y.stamp) {
+            return x;
+        } else {
+            return y;
+        }
+    }
+}
+```
+
+!!! info "Lemma 4.2.5"
+    This construction is an atomic SRSW register.
+
+``` java
+public class AtomicSRSWRegister<T> implements Register<T> {
+    private ThreadLocal<Long> lastStamp;
+    private ThreadLocal<StampedValue> lastRead;
+    private RegularSRSWStampedValueRegister r_value;
+
+    public AtomicSRSWRegister(T init) {
+        r_value.write(new StampedValue<T>(init));
+        lastStamp = new ThreadLocal<Long>() {
+            public Long initialValue() { return 0; }
+        };
+        lastRead = new ThreadLocal<StampedValue<T>>() {
+            public StampedValue<T> initialValue() { return r_value.read(); }
+        };
+    }
+
+    public T read() {
+        StampedValue<T> value = r_value.read();
+        StampedValue<T> last = lastRead.get();
+        StampedValue result = StampedValue.max(value, last); // max timestamp
+        lastRead.set(result);
+        return result.value;
+    }
+
+    public void write(T v) {
+        long stamp = lastStamp.get() + 1;                   // increase timestamp
+        r_value.write(new StampedValue(stamp, v));
+        lastStamp.set(stamp);
+    }
+}
+```
+
+### Atomic SRSW => Atomic MRSW
+
+!!! info "Lemma 4.2.6"
+    This construction is a MRSW atomic register.
+
+``` java
+public class AtomicMRSWRegister<T> implements Register<T> {
+    private ThreadLocal<Long> lastStamp;
+    private AtmoicSRSWStampedValueRegister[][] a_table;
+
+    public AtomicMRSWRegister(T init, int readers) {
+        lastStamp = new ThreadLocal<Long>() {
+            public Long initialValue() { return 0; }
+        };
+        a_table = (StampedValue<T>[][]) new StampedValue[readers][readers];
+        StampedValue<T> value = new StampedValue<T>(init);
+        for (int i = 0; i < readers; i++) {
+            for (int j = 0; j < readers; j++) {
+                a_table[i][j].write(value);
+            }
+        }
+    }
+
+    public T read() {
+        int me = ThreadID.get();
+        StampedValue<T> value = a_table[me][me];
+        for (int i = 0; i < a_table.length; i++) {
+            value = StampedValue.max(value, a_table[i][me].read());     // column me
+        }
+        for (int i = 0; i < a_table.length; i++) {
+            if (i == me) continue;
+            a_table[me][i].write(value);                                // row me                      
+        }
+    }
+
+    public void write(T v) {
+        long stamp = lastStamp.get() + 1;
+        lastStamp.set(stamp);
+        StampedValue<T> value = new StampedValue<T>(stamp, v);
+        for (int i = 0; i < a_table.length; i++){
+            a_table[i][i].write(value);                                 // diagonal
+        }
+    }
+}
+```
+
+### Atomic MRSW => Atomic MRMW
+
+!!! info "Lemma 4.2.7"
+    This construction is a MRWW atomic register.
+
+``` java
+public class AtomicMRMWRegister<T> implements Register<T> {
+    private AtomicMRSWRegister<StampedValue<T>>[] a_table;
+
+    public AtomicMRMWRegister(int capacity, T init) {
+        a_table = (AtomicMRSWRegister<StampedValue<T>>[]) 
+            new AtomicMRSWRegister[capacity];
+        StampedValue<T> value = new StampedValue<T>(init);
+        for ( int i = 0; i < a_table.length; i++) {
+            a_table[i].write(value);
+        }
+    }
+
+    public T read() {
+        StampedValue<T> max = StampedValue.MIN_VALUE;
+        for (int i = 0; i < a_table.length; i++) {
+            max = StampedValue.max(max, a_table[i]);            // max timestamp
+        }
+        return max.value;
+    }
+
+    public void write(T v) {
+        int me = ThreadID.get();
+        StampedValue<T> max = StampedValue.MIN_VALUE;
+        for (int i = 0; i < a_table.length; i++) {
+            max = StampedValue.max(max, a_table[i]);
+        }
+        a_table[me].write(new StampedValue(max.stamp + 1, v));  // increase timestamp
+    }
+}
+```

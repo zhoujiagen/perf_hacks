@@ -3,9 +3,12 @@
 
 A **read-write register** is an object that encapsulates a value that can be observed by a `read()` method and modified by a `write()` method:
 
---8<--
-tamp/snippets/04/register
---8<--
+``` java
+public interface Register<T> {
+    T read();
+    void write(T v);
+}
+```
 
 ![A SRSW register execution](images/srsw-register-execution.png)
 
@@ -61,4 +64,52 @@ To prove a register implementation is regular, we must show its history satisfy 
 To prove a register implementation is atomic, we must show its history satisfy condition (4.1.1), (4.1.2) and (4.1.3).
 
 ## 4.2 Register Constructions
+
+Roadmap:
+
+<div>
+{% dot register_roadmap.svg
+digraph register_roadmap {
+    rankdir=BT;
+     
+    node [shape=box, width=1, height=0.1];
+    srsw_safe [label="SRSW Safe Register"];
+    mrsw_safe [label="MRSW Safe Register"];
+    mrsw_bool_safe [label="MRSW Boolean Safe Register"];
+    mrsw_bool_regular [label = "MRSW Boolean Regular  Register"];
+    mrsw_regular [label="MRSW Regular Register"];
+    srsw_atomic [label="SRSW Atomic Register"];
+    mrsw_atomic [label="MRSW Atomic Register"];
+    mrmw_atomic [label="MRMW Atomic Register"];
+    atomic_snapshot [label="Atmoic Snapshot"];
+    
+    srsw_safe -> mrsw_safe;
+    mrsw_safe -> mrsw_bool_safe [arrowhead=none];
+    mrsw_bool_safe -> mrsw_bool_regular;
+    mrsw_bool_regular -> mrsw_regular;
+    mrsw_regular -> srsw_atomic;
+    srsw_atomic -> mrsw_atomic;
+    mrsw_atomic -> mrmw_atomic;
+    mrsw_atomic -> atomic_snapshot;
+}
+%}
+</div>
+
+--8<--
+tamp/snippets/04/register-construction
+--8<--
+
 ## 4.3 Atomic Snapshots
+
+An atomic snapshot constructs an instantaneous view of an array of atomic registers:
+
+``` java
+public interface Snapshot<T> {
+    public void update(T v);
+    public T[] scan();
+}
+```
+
+--8<--
+tamp/snippets/04/atomic-snapshot
+--8<--

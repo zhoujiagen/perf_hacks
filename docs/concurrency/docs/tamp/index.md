@@ -5,7 +5,7 @@
 |1|Introduction|||
 |2|Mutual Exclusion|100%|20210403|
 |3|Concurrent Objects|100%|20210404|
-|4|Foundations of Shared Memory|||
+|4|Foundations of Shared Memory|100%|20210412|
 |5|The Relative Power of Primitive Synchronization Operations|||
 |6|Universality of Consensus|||
 |7|Spin Locks and Contention|||
