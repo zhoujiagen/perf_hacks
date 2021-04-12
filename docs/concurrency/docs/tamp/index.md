@@ -7,7 +7,7 @@
 |3|Concurrent Objects|100%|20210404|
 |4|Foundations of Shared Memory|100%|20210412|
 |5|The Relative Power of Primitive Synchronization Operations|100%|20210412|
-|6|Universality of Consensus|||
+|6|Universality of Consensus|100%|20210413|
 |7|Spin Locks and Contention|||
 |8|Monitors and Blocking Synchronization|||
 |9|Linked Lists|||
@@ -464,3 +464,5 @@ digraph practice3 {
 Herlihy, M. & Shavit, N. The Art of Multiprocessor Programming. Elsevier, 2012.
 
 ## 其他备注
+
+如何进行基于属性/不变量的证明?

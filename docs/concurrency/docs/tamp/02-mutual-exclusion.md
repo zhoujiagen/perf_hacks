@@ -26,15 +26,19 @@ A thread is **well formed** if:
 - the thread calls that object's `lock()` method when it is trying to enter the critical section, and
 - the thread calls the `unlock()` method when it leaves the critical section.
 
-**Mutal Exclusion** Critical section of different threads do not overlap. <br/>
-For thread $A$ and $B$, and integer $j$ and $k$, either $CS_{A}^{k} \rightarrow CS_{B}^{j}$ or $CS_{B}^{j} \rightarrow CS_{A}^{k}$.
 
-**Freedom from Deadlock** If some thread attempts to acquire the lock, them some thread will succeed in acquiring the lock. <br/>
-If thread $A$ calls `lock()` but never acquires the lock, then other threads must be completing an infinite number of critial sections.<br/>
-It implies that the system never freezes.
+!!! info "Mutual Exlusion"
+    Critical section of different threads do not overlap. <br/>
+    For thread $A$ and $B$, and integer $j$ and $k$, either $CS_{A}^{k} \rightarrow CS_{B}^{j}$ or $CS_{B}^{j} \rightarrow CS_{A}^{k}$.
 
-**Freedom from Starvation/Lockout Freedom** Every thread that attempts to acquire the lock eventually succeeds.<br/>
-Every call to `lock()` eventually returns.
+!!! info "deadlock-free, **Freedom from Deadlock**"
+    If some thread attempts to acquire the lock, them some thread will succeed in acquiring the lock. <br/>
+    If thread $A$ calls `lock()` but never acquires the lock, then other threads must be completing an infinite number of critial sections.<br/>
+    It implies that the system never freezes.
+
+!!! info "starvation-free, **Freedom from Starvation/Lockout Freedom**"
+    Every thread that attempts to acquire the lock eventually succeeds.<br/>
+    Every call to `lock()` eventually returns.
 
 Starvation freedom implies deadlock freedom.
 

@@ -90,11 +90,13 @@ Linearizablility is a **nonblocking** property:
 
 ## Progress Conditions
 
-A method is **wait-free** if it guarantees that every call finishes its execution in a finite number of steps. <br/>
-It is **bounded wait-free** if there is a bound on the number of steps a method call can take. <br/>
-A wait-free method whose perfomance does not depend on the number of active threads is call **population-oblivious**.
+!!! info "wait-free"
+    A method is **wait-free** if it guarantees that every call finishes its execution in a finite number of steps. <br/>
+    It is **bounded wait-free** if there is a bound on the number of steps a method call can take. <br/>
+    A wait-free method whose perfomance does not depend on the number of active threads is call **population-oblivious**.
 
-A method is **lock-free** if it guarantees that infinitely often some method call finishes in a finite number of steps.
+!!! info "lock-free"
+    A method is **lock-free** if it guarantees that infinitely often some method call finishes in a finite number of steps.
 
 ### Dependent Progress Conditions
 

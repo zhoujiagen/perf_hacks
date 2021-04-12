@@ -70,6 +70,8 @@ A protocol state is **critical** if:
 !!! info "Corollary 5.2.1"
     It is impossible to construct a wait-free implementation of any object with consensus number greater than $1$ using atomic register.
 
+> Corollary 5.2.1 explains why, if we want to implement lock-free concurrent data structures on modern multiprocessors, our hardware must provide primitive synchronization operations other than loads and stores(reads-writes).
+
 ## 5.3 Consensus Protocols
 
 The generic consensus protocl:
