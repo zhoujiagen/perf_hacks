@@ -44,12 +44,11 @@ nav:
         - 'NS2': kernel/docs/network/ns2.md
     - 'Concurrency':
       - Home: concurrency/docs/index.md
-      - 'Concepts of TAMP': concurrency/docs/tamp-concepts.md
-      - 'TAMP': concurrency/docs/tamp.md
+      - 'TAMP': concurrency/docs/index.md
+      - 'Java Concurrency': concurrency/docs/java-concurrency.md
     - 'Performance Analysis':
-      - 'Introduction': perf_analysis/docs/perf_analysis.md
+      - 'Introduction': perf_analysis/docs/index.md
       - 'Terminology': perf_analysis/docs/terms.md
-      - 'Flame Graph': perf_analysis/docs/flame-graph.md
       - 'Tracing':
         - 'Linux Tracing Technologies': perf_analysis/docs/tracing/linux-tracing.md
         - 'Probes':
@@ -68,12 +67,18 @@ nav:
         - 'BPF':
           - 'BCC': perf_analysis/docs/tools/bpf/bcc.md
           - 'bpftrace': perf_analysis/docs/tools/bpf/bpftrace.md
-          - 'Book':
-            - 'Index': perf_analysis/docs/tools/bpf/bpf-book.md
-            - 'PART 1: 技术': perf_analysis/docs/tools/bpf/bpf-book-part1.md
-            - 'PART 2: 使用BPF工具': perf_analysis/docs/tools/bpf/bpf-book-part2.md
-            - 'PART 3: 高级主题': perf_analysis/docs/tools/bpf/bpf-book-part3.md
-            - 'PART 4: 附录': perf_analysis/docs/tools/bpf/bpf-book-part4.md
+        - 'Flame Graph': perf_analysis/docs/flame-graph.md
+      - 'Topics':
+        - 'CPU': perf_analysis/docs/topics/perf-cpu.md
+        - '内存': perf_analysis/docs/topics/perf-memory.md
+        - '文件系统': perf_analysis/docs/topics/perf-file-system.md
+        - '磁盘': perf_analysis/docs/topics/perf-disk.md
+        - '网络': perf_analysis/docs/topics/perf-network.md
+        - '安全': perf_analysis/docs/topics/perf-security.md
+        - '语言': perf_analysis/docs/topics/perf-language.md
+        - '应用': perf_analysis/docs/topics/perf-application.md
+        - '内核': perf_analysis/docs/topics/perf-kernel.md
+        - '虚拟化': perf_analysis/docs/topics/perf-virtual.md
 
 #theme: readthedocs
 theme:

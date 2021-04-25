@@ -5,10 +5,8 @@ repo_name: perf_hacks
 repo_url: https://github.com/zhoujiagen/perf_hacks
 
 nav:
-  - 'Home': index.md
-  - 'Introduction': perf_analysis.md
+  - 'Introduction': index.md
   - 'Terminology': terms.md
-  - 'Flame Graph': flame-graph.md
   - 'Tracing':
     - 'Linux Tracing Technologies': tracing/linux-tracing.md
     - 'Probes':
@@ -28,12 +26,18 @@ nav:
     - 'BPF':
       - 'BCC': tools/bpf/bcc.md
       - 'bpftrace': tools/bpf/bpftrace.md
-      - 'Book':
-        - 'Index': tools/bpf/bpf-book.md
-        - 'PART 1: 技术': tools/bpf/bpf-book-part1.md
-        - 'PART 2: 使用BPF工具': tools/bpf/bpf-book-part2.md
-        - 'PART 3: 高级主题': tools/bpf/bpf-book-part3.md
-        - 'PART 4: 附录': tools/bpf/bpf-book-part4.md
+    - 'Flame Graph': flame-graph.md
+  - 'Topics':
+    - 'CPU': topics/perf-cpu.md
+    - '内存': topics/perf-memory.md
+    - '文件系统': topics/perf-file-system.md
+    - '磁盘': topics/perf-disk.md
+    - '网络': topics/perf-network.md
+    - '安全': topics/perf-security.md
+    - '语言': topics/perf-language.md
+    - '应用': topics/perf-application.md
+    - '内核': topics/perf-kernel.md
+    - '虚拟化': topics/perf-virtual.md
 
 #theme: readthedocs
 theme:
