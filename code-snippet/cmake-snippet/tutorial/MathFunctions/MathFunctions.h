@@ -1,7 +1,0 @@
-#ifndef MATHFUNCTIONS_MATHFUNCTIONS_H_
-#define MATHFUNCTIONS_MATHFUNCTIONS_H_
-
-double
-mysqrt (double x);
-
-#endif /* MATHFUNCTIONS_MATHFUNCTIONS_H_ */
