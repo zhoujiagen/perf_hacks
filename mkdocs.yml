@@ -12,7 +12,26 @@ nav:
       - 'Tools': rust/docs/tool.md
     - 'Concurrency':
       - Home: concurrency/docs/index.md
-      - 'TAMP': concurrency/docs/index.md
+      - 'TAMP':
+        - 'Home': concurrency/docs/tamp/index.md
+        - '1. Introduction': concurrency/docs/tamp/01-introduction.md
+        - '2. Mutual Exclusion': concurrency/docs/tamp/02-mutual-exclusion.md
+        - '3. Concurrent Objects': concurrency/docs/tamp/03-concurrent-objects.md
+        - '4. Foundations of Shared Memory': concurrency/docs/tamp/04-foundations-of-shared-memory.md
+        - '5. The Relative Power of Primitive Synchronization Operations': concurrency/docs/tamp/05-the-relative-power-of-primitive-synchronization-operations.md
+        - '6. Universality of Consensus': concurrency/docs/tamp/06-universality-of-consensus.md
+        - '7. Spin Locks and Contention': concurrency/docs/tamp/07-spin-locks-and-contention.md
+        - '8. Monitors and Blocking Synchronization': concurrency/docs/tamp/08-monitors-and-blocking-synchronization.md
+        - '9. Linked Lists': concurrency/docs/tamp/09-linked-lists.md
+        - '10. Concurrent Queues and the ABA Problem': concurrency/docs/tamp/10-concurrent-queues-and-the-aba-problem.md
+        - '11. Concurrent Stacks and Elimination': concurrency/docs/tamp/11-concurrent-stacks-and-elimination.md
+        - '12. Counting, Sorting, and Distributed Coordination': concurrency/docs/tamp/12-counting-sorting-and-distributed-coordination.md
+        - '13. Concurrent Hashing and Natural Parallelism': concurrency/docs/tamp/13-concurrent-hashing-and-natural-parallelism.md
+        - '14. Skiplists and Balanced Search': concurrency/docs/tamp/14-skiplists-and-balanced-search.md
+        - '15. Priority Queues': concurrency/docs/tamp/15-priority-queues.md
+        - '16. Futures, Scheduling, and Work Distribution': concurrency/docs/tamp/16-futures-scheduling-and-work-distribution.md
+        - '17. Barriers': concurrency/docs/tamp/17-barriers.md
+        - '18. Transactional Memory': concurrency/docs/tamp/18-transactional-memory.md
       - 'Java Concurrency': concurrency/docs/java-concurrency.md
     - 'Performance Analysis':
       - 'Introduction': perf_analysis/docs/index.md
